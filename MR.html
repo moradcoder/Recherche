@@ -1,0 +1,2494 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Master Research Lab — Méthodologie de recherche scientifique</title>
+<style>
+/* ============ RESET & VARIABLES ============ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f4f6fb; --bg-card:#ffffff; --bg-alt:#eef2f9;
+  --text:#1e2433; --text-muted:#5c677d; --border:#dde3ee;
+  --primary:#3b5bdb; --primary-dark:#2f49b0; --primary-soft:#e4e9fd;
+  --success:#1f9d55; --success-soft:#e3f6ec;
+  --danger:#d64545; --danger-soft:#fde8e8;
+  --warning:#c98a00; --warning-soft:#fff4d6;
+  --radius:14px; --radius-sm:9px;
+  --shadow:0 2px 8px rgba(20,30,60,.07);
+  --shadow-lg:0 8px 28px rgba(20,30,60,.13);
+  --font:'Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;
+  --font-ar:'Segoe UI','Tahoma',system-ui,sans-serif;
+}
+html[data-theme="dark"]{
+  --bg:#12161f; --bg-card:#1a2030; --bg-alt:#212a3d;
+  --text:#e6eaf3; --text-muted:#9aa7bf; --border:#2c3750;
+  --primary:#6d8bff; --primary-dark:#8aa2ff; --primary-soft:#232f52;
+  --success:#4ade80; --success-soft:#173227;
+  --danger:#f87171; --danger-soft:#3a1d1d;
+  --warning:#fbbf24; --warning-soft:#3a2f13;
+  --shadow:0 2px 8px rgba(0,0,0,.35);
+  --shadow-lg:0 8px 28px rgba(0,0,0,.5);
+}
+html[dir="rtl"]{--font:'Segoe UI','Tahoma',system-ui,sans-serif}
+body{
+  font-family:var(--font);background:var(--bg);color:var(--text);
+  line-height:1.6;min-height:100vh;transition:background .25s,color .25s;
+  -webkit-font-smoothing:antialiased;
+}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,select{font-family:inherit}
+a{color:var(--primary)}
+/* ============ LAYOUT ============ */
+.app{max-width:1180px;margin:0 auto;padding:0 16px 80px}
+header.top{
+  position:sticky;top:0;z-index:50;background:var(--bg);
+  border-bottom:1px solid var(--border);backdrop-filter:blur(8px);
+  background:color-mix(in srgb,var(--bg) 88%,transparent);
+}
+.top-inner{
+  max-width:1180px;margin:0 auto;padding:12px 16px;
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.05rem}
+.brand .logo{
+  width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--primary),#7c3aed);
+  display:grid;place-items:center;color:#fff;font-size:1.15rem;flex:none;
+}
+.brand small{display:block;font-weight:400;font-size:.7rem;color:var(--text-muted)}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.icon-btn{
+  width:38px;height:38px;border-radius:10px;border:1px solid var(--border);
+  background:var(--bg-card);display:grid;place-items:center;font-size:1.05rem;
+  transition:.2s;color:var(--text)
+}
+.icon-btn:hover{border-color:var(--primary);color:var(--primary);transform:translateY(-1px)}
+.lang-select{
+  border:1px solid var(--border);background:var(--bg-card);color:var(--text);
+  border-radius:10px;padding:8px 10px;font-size:.85rem;font-weight:600;
+}
+/* nav tabs */
+nav.tabs{
+  display:flex;gap:4px;overflow-x:auto;padding:0 16px 10px;max-width:1180px;
+  margin:0 auto;scrollbar-width:none;
+}
+nav.tabs::-webkit-scrollbar{display:none}
+.tab{
+  flex:none;padding:8px 14px;border-radius:999px;font-size:.85rem;font-weight:600;
+  color:var(--text-muted);white-space:nowrap;transition:.2s;border:1px solid transparent
+}
+.tab:hover{background:var(--bg-alt);color:var(--text)}
+.tab.active{background:var(--primary);color:#fff;box-shadow:var(--shadow)}
+/* ============ COMMON ============ */
+h1{font-size:1.75rem;line-height:1.25;letter-spacing:-.02em}
+h2{font-size:1.3rem;line-height:1.3;margin-bottom:6px;letter-spacing:-.01em}
+h3{font-size:1.05rem;line-height:1.35;margin-bottom:4px}
+.sub{color:var(--text-muted);font-size:.92rem}
+.section{margin-top:26px}
+.card{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px 20px;box-shadow:var(--shadow);transition:border-color .2s,box-shadow .2s;
+}
+.card.hoverable:hover{border-color:color-mix(in srgb,var(--primary) 45%,var(--border));box-shadow:var(--shadow-lg);transform:translateY(-2px)}
+.grid{display:grid;gap:14px}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.grid-4{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.badge{
+  display:inline-block;padding:3px 9px;border-radius:999px;font-size:.72rem;font-weight:700;
+  background:var(--primary-soft);color:var(--primary);letter-spacing:.02em
+}
+.badge.green{background:var(--success-soft);color:var(--success)}
+.badge.orange{background:var(--warning-soft);color:var(--warning)}
+.badge.red{background:var(--danger-soft);color:var(--danger)}
+.badge.gray{background:var(--bg-alt);color:var(--text-muted)}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:10px 18px;border-radius:var(--radius-sm);font-weight:600;font-size:.9rem;
+  background:var(--primary);color:#fff;transition:.2s;border:1px solid transparent
+}
+.btn:hover{background:var(--primary-dark);transform:translateY(-1px)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn.secondary{background:var(--bg-alt);color:var(--text);border-color:var(--border)}
+.btn.secondary:hover{background:var(--primary-soft);color:var(--primary);border-color:var(--primary)}
+.btn.danger{background:var(--danger)}
+.btn.danger:hover{background:#b53a3a}
+.btn.small{padding:6px 12px;font-size:.8rem}
+.btn.ghost{background:transparent;color:var(--text-muted);border:1px solid var(--border)}
+.btn.ghost:hover{color:var(--primary);border-color:var(--primary);background:var(--primary-soft)}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.spread{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+hr.sep{border:none;border-top:1px solid var(--border);margin:16px 0}
+/* progress */
+.progress{height:9px;background:var(--bg-alt);border-radius:999px;overflow:hidden}
+.progress > span{display:block;height:100%;background:linear-gradient(90deg,var(--primary),#7c3aed);border-radius:999px;transition:width .5s ease}
+.progress.green > span{background:linear-gradient(90deg,#22c55e,#16a34a)}
+/* ============ DASHBOARD ============ */
+.hero{
+  background:linear-gradient(135deg,var(--primary),#6d3aed);color:#fff;
+  border-radius:var(--radius);padding:30px 26px;margin-top:20px;position:relative;overflow:hidden
+}
+.hero::after{
+  content:'';position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;
+  background:rgba(255,255,255,.12)
+}
+.hero h1{color:#fff;position:relative;z-index:1}
+.hero p{color:rgba(255,255,255,.9);margin-top:6px;position:relative;z-index:1;max-width:640px}
+.hero .row{margin-top:16px;position:relative;z-index:1}
+.hero .btn{background:#fff;color:var(--primary)}
+.hero .btn:hover{background:#eef2ff;color:var(--primary-dark)}
+.stat-card{text-align:center;padding:16px 10px}
+.stat-card .num{font-size:1.7rem;font-weight:800;color:var(--primary);line-height:1.1}
+.stat-card .lbl{font-size:.78rem;color:var(--text-muted);margin-top:4px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+/* ============ LESSONS ============ */
+.lesson-body{font-size:.95rem}
+.lesson-body p{margin-bottom:10px}
+.lesson-body ul,.lesson-body ol{margin:8px 0 12px 20px}
+.lesson-body li{margin-bottom:5px}
+.idea{
+  background:var(--primary-soft);border-left:4px solid var(--primary);
+  padding:12px 16px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;margin:14px 0;font-size:.92rem
+}
+.warn{
+  background:var(--warning-soft);border-left:4px solid var(--warning);
+  padding:12px 16px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;margin:14px 0;font-size:.92rem
+}
+.example{
+  background:var(--bg-alt);border-left:4px solid var(--text-muted);
+  padding:12px 16px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;margin:14px 0;font-size:.92rem
+}
+/* tables */
+.tbl-wrap{overflow-x:auto;margin:12px 0}
+table{width:100%;border-collapse:collapse;font-size:.87rem;min-width:420px}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+th{background:var(--bg-alt);font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.03em;color:var(--text-muted)}
+tr:last-child td{border-bottom:none}
+/* ============ QUIZ ============ */
+.quiz-header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.quiz-meta{font-size:.82rem;color:var(--text-muted);font-weight:600}
+.q-card{padding:20px}
+.q-text{font-size:1.02rem;font-weight:600;margin:6px 0 16px;line-height:1.5}
+.q-src{font-size:.74rem;color:var(--text-muted);font-weight:600}
+.q-options{display:grid;gap:9px}
+.opt{
+  display:flex;align-items:flex-start;gap:11px;padding:12px 15px;border:1.5px solid var(--border);
+  border-radius:var(--radius-sm);cursor:pointer;transition:.18s;font-size:.92rem;text-align:left;width:100%;
+  background:var(--bg-card);color:var(--text)
+}
+.opt:hover:not(.disabled){border-color:var(--primary);background:var(--primary-soft)}
+.opt .letter{
+  flex:none;width:26px;height:26px;border-radius:50%;background:var(--bg-alt);
+  display:grid;place-items:center;font-weight:800;font-size:.8rem;color:var(--text-muted)
+}
+.opt.selected{border-color:var(--primary);background:var(--primary-soft)}
+.opt.selected .letter{background:var(--primary);color:#fff}
+.opt.correct{border-color:var(--success);background:var(--success-soft)}
+.opt.correct .letter{background:var(--success);color:#fff}
+.opt.wrong{border-color:var(--danger);background:var(--danger-soft)}
+.opt.wrong .letter{background:var(--danger);color:#fff}
+.opt.disabled{cursor:default}
+.opt .mark{margin-left:auto;font-weight:800;flex:none}
+.explanation{
+  margin-top:14px;padding:14px 16px;border-radius:var(--radius-sm);
+  background:var(--bg-alt);border:1px solid var(--border);font-size:.88rem;line-height:1.55
+}
+.explanation strong{color:var(--primary)}
+.quiz-nav{display:flex;justify-content:space-between;gap:10px;margin-top:18px;flex-wrap:wrap}
+/* result */
+.result-big{text-align:center;padding:26px 16px}
+.score-ring{font-size:2.6rem;font-weight:800;line-height:1}
+/* ============ FLASHCARDS ============ */
+.fc-stage{perspective:1200px;max-width:560px;margin:0 auto}
+.flashcard{
+  width:100%;min-height:220px;position:relative;transform-style:preserve-3d;
+  transition:transform .55s cubic-bezier(.4,.2,.2,1);cursor:pointer
+}
+.flashcard.flipped{transform:rotateY(180deg)}
+.fc-face{
+  position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--radius);
+  padding:22px;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;border:1px solid var(--border);box-shadow:var(--shadow);overflow-y:auto
+}
+.fc-front{background:var(--bg-card)}
+.fc-back{background:var(--primary-soft);transform:rotateY(180deg)}
+.fc-face .fc-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin-bottom:10px}
+.fc-face .fc-content{font-size:1.02rem;font-weight:600;line-height:1.5}
+.fc-back .fc-content{font-weight:400;font-size:.92rem}
+/* ============ MATCH GAME ============ */
+.match-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.match-col h4{font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted);margin-bottom:8px}
+.match-item{
+  padding:11px 13px;border:1.5px solid var(--border);border-radius:var(--radius-sm);
+  margin-bottom:8px;cursor:pointer;transition:.18s;font-size:.88rem;background:var(--bg-card)
+}
+.match-item:hover{border-color:var(--primary)}
+.match-item.selected{border-color:var(--primary);background:var(--primary-soft)}
+.match-item.matched{border-color:var(--success);background:var(--success-soft);opacity:.65;pointer-events:none}
+.match-item.shake{animation:shake .3s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+/* ============ ORDER GAME ============ */
+.order-item{
+  padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);
+  margin-bottom:8px;display:flex;align-items:center;gap:10px;background:var(--bg-card);font-size:.9rem
+}
+.order-item .idx{width:26px;height:26px;border-radius:50%;background:var(--bg-alt);display:grid;place-items:center;font-weight:800;font-size:.8rem;flex:none;color:var(--text-muted)}
+.order-item .moves{margin-left:auto;display:flex;gap:4px}
+.order-item .moves button{width:28px;height:28px;border-radius:7px;border:1px solid var(--border);font-size:.9rem;display:grid;place-items:center}
+.order-item .moves button:hover:not(:disabled){border-color:var(--primary);color:var(--primary)}
+.order-item.ok{border-color:var(--success);background:var(--success-soft)}
+.order-item.bad{border-color:var(--danger);background:var(--danger-soft)}
+/* ============ GLOSSARY ============ */
+.gloss-item{padding:14px 16px;border-bottom:1px solid var(--border)}
+.gloss-item:last-child{border-bottom:none}
+.gloss-term{font-weight:700;font-size:1rem;color:var(--primary)}
+.gloss-def{font-size:.9rem;margin-top:5px}
+.gloss-ar{font-size:.85rem;color:var(--text-muted);margin-top:5px;direction:rtl;text-align:right}
+.alpha-bar{display:flex;gap:4px;flex-wrap:wrap;margin:12px 0}
+.alpha-bar button{
+  width:30px;height:30px;border-radius:7px;border:1px solid var(--border);
+  font-size:.78rem;font-weight:700;background:var(--bg-card);color:var(--text-muted)
+}
+.alpha-bar button.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+/* ============ SEARCH ============ */
+.search-box{position:relative;width:100%;max-width:420px}
+.search-box input{
+  width:100%;padding:11px 16px 11px 40px;border-radius:999px;border:1px solid var(--border);
+  background:var(--bg-card);color:var(--text);font-size:.9rem;outline:none;transition:.2s
+}
+.search-box input:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-soft)}
+.search-box .ico{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:.95rem}
+html[dir="rtl"] .search-box input{padding:11px 40px 11px 16px}
+html[dir="rtl"] .search-box .ico{left:auto;right:14px}
+/* ============ MISC ============ */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.filters select{
+  padding:8px 12px;border-radius:9px;border:1px solid var(--border);
+  background:var(--bg-card);color:var(--text);font-size:.84rem;font-weight:600;outline:none
+}
+.filters select:focus{border-color:var(--primary)}
+.empty{text-align:center;padding:36px 16px;color:var(--text-muted);font-size:.92rem}
+.toast{
+  position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(120px);
+  background:var(--text);color:var(--bg);padding:12px 22px;border-radius:999px;
+  font-size:.88rem;font-weight:600;z-index:200;transition:transform .35s cubic-bezier(.2,.8,.2,1);
+  box-shadow:var(--shadow-lg);max-width:90vw;text-align:center;pointer-events:none
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.ok{background:var(--success);color:#fff}
+.toast.err{background:var(--danger);color:#fff}
+details.faq{border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 16px;margin-bottom:8px;background:var(--bg-card)}
+details.faq summary{cursor:pointer;font-weight:600;font-size:.92rem;list-style:none}
+details.faq summary::-webkit-details-marker{display:none}
+details.faq summary::before{content:'▸ ';color:var(--primary);font-weight:800}
+details.faq[open] summary::before{content:'▾ '}
+details.faq p{margin-top:8px;font-size:.88rem;color:var(--text-muted)}
+.list-num{counter-reset:item;list-style:none}
+.list-num li{counter-increment:item;display:flex;gap:10px;margin-bottom:7px;font-size:.9rem}
+.list-num li::before{
+  content:counter(item);flex:none;width:22px;height:22px;border-radius:50%;
+  background:var(--primary-soft);color:var(--primary);display:grid;place-items:center;
+  font-weight:800;font-size:.72rem
+}
+.kpi{display:flex;align-items:center;gap:9px;font-size:.85rem;color:var(--text-muted);font-weight:600}
+.kpi .dot{width:9px;height:9px;border-radius:50%;background:var(--primary)}
+.stepper{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:10px 0}
+.step-dot{width:10px;height:10px;border-radius:50%;background:var(--border)}
+.step-dot.done{background:var(--success)}
+.step-dot.cur{background:var(--primary);box-shadow:0 0 0 3px var(--primary-soft)}
+.view{display:none}
+.view.active{display:block;animation:fadeUp .3s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media (max-width:640px){
+  h1{font-size:1.4rem}
+  .hero{padding:22px 18px}
+  .card{padding:15px 15px}
+  .match-cols{grid-template-columns:1fr}
+  .top-inner{padding:10px 12px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s!important;transition-duration:.001s!important}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">
+      <div class="logo">🎓</div>
+      <div>Master Research Lab
+        <small id="brandSub">Comprendre, mémoriser et réussir la méthodologie</small>
+      </div>
+    </div>
+    <div class="top-actions">
+      <select class="lang-select" id="langSelect" aria-label="Langue">
+        <option value="fr">🇫🇷 Français</option>
+        <option value="ar">🇸🇦 العربية</option>
+        <option value="dr">🇲🇦 الدارجة</option>
+      </select>
+      <button class="icon-btn" id="themeBtn" title="Mode sombre/clair" aria-label="Changer de thème">🌙</button>
+      <button class="icon-btn" id="resetBtn" title="Réinitialiser la progression" aria-label="Réinitialiser">↺</button>
+    </div>
+  </div>
+  <nav class="tabs" id="tabs"></nav>
+</header>
+
+<main class="app" id="app"></main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================================
+   DONNÉES PÉDAGOGIQUES — extraites du PDF (76 pages)
+   ========================================================================= */
+const COURSE = {
+  title: "Méthodologie de recherche scientifique",
+  subtitle: "Recherche documentaire, bibliométrie, rédaction scientifique, publication et mémoire/PFE",
+  author: "Aissam Hadri — FSAO – Ouarzazate",
+  year: "2026"
+};
+
+/* ---------- CHAPITRES / RÉSUMÉS ---------- */
+const CHAPTERS = [
+  {
+    id: "c1", num: 1, title: "Recherche documentaire et littérature scientifique",
+    pages: "4–13",
+    summary: "La littérature scientifique regroupe les publications communiquant des résultats de recherche et des connaissances validées : articles originaux, revues de synthèse, actes de conférences, thèses, livres, prépublications. Un travail scientifique sérieux commence par comprendre le contexte scientifique dans lequel la question s'inscrit, identifier les lacunes de recherche, appuyer les arguments par des références fiables et éviter de refaire un travail déjà publié.",
+    ideas: [
+      "La littérature scientifique = publications communiquant des résultats validés.",
+      "Types : article original, revue de synthèse, actes de conférence, thèse/mémoire, livre, prépublication.",
+      "Chercher la littérature permet de connaître l'existant et d'identifier ce qui reste à étudier.",
+      "On ne commence pas par écrire : on commence par comprendre le contexte scientifique.",
+      "Critères d'évaluation d'une source : pertinence, qualité scientifique, actualité, crédibilité, impact, cohérence.",
+      "Une source ne doit pas être acceptée seulement parce qu'elle apparaît dans Google : elle doit être lue, comprise et évaluée."
+    ],
+    definitions: [
+      ["Littérature scientifique", "Ensemble des publications qui communiquent des résultats de recherche et des connaissances validées."],
+      ["Lacune de recherche", "Limite, question ouverte ou hypothèse non vérifiée identifiée dans la littérature existante."],
+      ["Prépublication", "Version d'un article déposée avant ou pendant l'évaluation par les pairs (ex. arXiv)."],
+      ["Revue de synthèse", "Document qui résume et organise plusieurs travaux sur un thème donné."],
+      ["Article original", "Article présentant une contribution nouvelle avec méthode, résultats et discussion."]
+    ],
+    keywords: ["littérature scientifique", "article original", "revue de synthèse", "prépublication", "lacune de recherche", "état de l'art"],
+    steps: ["Chercher", "Sélectionner", "Évaluer", "Lire", "Citer", "Rédiger"],
+    mistakes: [
+      "Commencer à écrire immédiatement sans comprendre le contexte.",
+      "Accepter une source uniquement parce qu'elle apparaît dans Google.",
+      "Ignorer les articles récents qui contredisent ou limitent la contribution.",
+      "Utiliser des références trop anciennes dans un domaine qui évolue vite."
+    ],
+    example: "Avant de proposer une nouvelle méthode de classification, il faut connaître les méthodes de référence, les jeux de données utilisés, les métriques d'évaluation et les limites rapportées dans les articles récents."
+  },
+  {
+    id: "c2", num: 2, title: "Scopus, Web of Science et stratégie de recherche",
+    pages: "14–19",
+    summary: "Scopus (Elsevier) et Web of Science (Clarivate) sont deux grandes bases bibliographiques et de citations. Elles donnent accès aux notices, résumés, auteurs, affiliations, mots-clés et références citées. Elles permettent de suivre les citations et d'identifier les revues indexées. Elles ne remplacent pas la lecture critique : elles servent à cartographier la littérature et vérifier l'indexation.",
+    ideas: [
+      "Scopus = Elsevier ; Web of Science = Clarivate.",
+      "Les deux bases sont complémentaires : couvertures, indicateurs et catégories ne sont pas identiques.",
+      "Web of Science contient plusieurs index de citations dont SCIE et SSCI.",
+      "Scopus est associé à CiteScore ; Web of Science à JIF via JCR.",
+      "Stratégie de recherche : requête large → lecture titres/résumés → synonymes (OR) et contraintes (AND) → filtres → tri → export Zotero/BibTeX."
+    ],
+    definitions: [
+      ["Scopus", "Grande base bibliographique et de citations développée par Elsevier, couvrant sciences, ingénierie, médecine, sciences sociales, informatique."],
+      ["Web of Science", "Plateforme de Clarivate indexant des publications scientifiques et académiques, avec plusieurs index de citations (SCIE, SSCI, etc.)."],
+      ["SCIE / SSCI", "Index de citations de Web of Science : Science Citation Index Expanded et Social Sciences Citation Index."]
+    ],
+    keywords: ["Scopus", "Web of Science", "SCIE", "SSCI", "requête booléenne", "indexation", "citations"],
+    steps: [
+      "Commencer par une requête large avec 2 ou 3 mots-clés.",
+      "Lire les titres et résumés pour repérer les termes dominants.",
+      "Ajouter des synonymes avec OR et des contraintes avec AND.",
+      "Filtrer par années récentes, type de document et domaine.",
+      "Trier par pertinence ou nombre de citations.",
+      "Exporter les références vers Zotero ou BibTeX."
+    ],
+    mistakes: [
+      "Croire que Scopus et Web of Science ont exactement la même couverture.",
+      "Confondre indexation et qualité scientifique d'un article.",
+      "Utiliser une seule base et manquer des articles importants."
+    ],
+    example: "Requête : \"shadow removal\" AND \"diffusion model\" OR \"flow matching\", puis filtrer par 2023-2026 et par domaine informatique/traitement d'image."
+  },
+  {
+    id: "c3", num: 3, title: "JIF, CiteScore et quartiles",
+    pages: "20–31",
+    summary: "Le Journal Impact Factor (JIF) est fourni par Clarivate via Journal Citation Reports et utilise une fenêtre de citation de 2 ans. CiteScore est associé à Scopus et utilise une fenêtre de 4 ans. Tous deux sont des indicateurs de revue, pas de qualité d'un article individuel. Le quartile indique la position relative d'une revue dans une catégorie disciplinaire (Q1 = top 25%, Q4 = dernier quart). Il faut toujours vérifier l'année, la catégorie et l'ISSN.",
+    ideas: [
+      "JIF : Clarivate / JCR, fenêtre 2 ans, moyenne de citations des articles éligibles.",
+      "CiteScore : Elsevier / Scopus, fenêtre 4 ans.",
+      "Le JIF est un indicateur de revue, pas un indicateur de qualité d'un article individuel.",
+      "Q1 = 0–25%, Q2 = 25–50%, Q3 = 50–75%, Q4 = 75–100%.",
+      "Un quartile est toujours relatif à une catégorie : une revue peut être Q1 dans une catégorie et Q2 dans une autre.",
+      "Vérifier nom exact, ISSN, éditeur, catégorie, année et indexation."
+    ],
+    definitions: [
+      ["Journal Impact Factor (JIF)", "Indicateur de visibilité moyenne d'une revue, calculé comme le nombre moyen de citations reçues par les articles éligibles publiés dans la revue sur une fenêtre de 2 ans."],
+      ["CiteScore", "Indicateur de revue associé à Scopus, mesurant l'impact citationnel des publications indexées sur une fenêtre de 4 ans."],
+      ["Quartile", "Position relative d'une revue dans une catégorie disciplinaire, divisée en quatre groupes (Q1 à Q4)."],
+      ["Journal Citation Reports (JCR)", "Source officielle du Journal Impact Factor, fournie par Clarivate."]
+    ],
+    keywords: ["JIF", "CiteScore", "quartile", "JCR", "ISSN", "facteur d'impact"],
+    steps: [
+      "Pour Web of Science : consulter JCR et la catégorie de la revue.",
+      "Pour Scopus : consulter les sources Scopus et les indicateurs associés.",
+      "SCImago Journal Rank peut être utilisé comme source complémentaire pour Scopus.",
+      "Toujours vérifier nom exact, ISSN, éditeur, catégorie, année et indexation."
+    ],
+    mistakes: [
+      "Choisir une revue uniquement parce qu'elle est Q1 sans vérifier le champ scientifique.",
+      "Confondre facteur d'impact officiel et faux indicateurs affichés sur Internet.",
+      "Mélanger JIF et CiteScore comme s'ils mesuraient exactement la même chose.",
+      "Utiliser le JIF comme indicateur de qualité d'un article individuel."
+    ],
+    example: "Exemple de calcul du JIF 2026 : (155 + 160) / (125 + 115) = 315 / 240 = 1,313. Une revue peut avoir quelques articles très cités et beaucoup d'articles peu cités."
+  },
+  {
+    id: "c4", num: 4, title: "Préparation et structure d'un manuscrit scientifique",
+    pages: "32–41",
+    summary: "La publication scientifique résulte d'un processus : recherche → préparation du manuscrit → choix de la revue → soumission → évaluation par les pairs → révision → publication. La structure classique d'un article est : Titre, Résumé et mots-clés, Introduction, Matériels et méthodes, Résultats, Discussion, Conclusion, Références. La rédaction scientifique organise un raisonnement : contexte → question → méthode → résultats → interprétation.",
+    ideas: [
+      "Une publication n'est pas un texte final : c'est le résultat d'un processus où chaque étape dépend de la précédente.",
+      "Structure IMRAD classique : Introduction, Méthodes, Résultats, Discussion (+ Titre, Résumé, Conclusion, Références).",
+      "Le résumé doit pouvoir être compris sans lire le reste de l'article et ne doit pas introduire de résultats absents.",
+      "Le style scientifique doit être précis, objectif et cohérent.",
+      "Les résultats du présent travail doivent être explicitement distingués des résultats déjà publiés."
+    ],
+    definitions: [
+      ["Structure IMRAD", "Structure classique d'un article : Introduction, Matériels et méthodes, Résultats, Discussion."],
+      ["Résumé (abstract)", "Synthèse autonome de l'article comprenant contexte, justification, objectif, méthode, résultats clés et conclusion."],
+      ["Style scientifique", "Style précis, objectif et cohérent, appuyant les affirmations factuelles par des données ou des références."]
+    ],
+    keywords: ["IMRAD", "manuscrit", "résumé", "style scientifique", "peer review", "publication"],
+    steps: [
+      "Formuler une question de recherche ou une hypothèse clairement définie.",
+      "Réaliser une revue de littérature pour identifier contexte et lacune.",
+      "Concevoir une méthodologie adaptée (expérimentale, théorique, numérique ou mixte).",
+      "Collecter, traiter et analyser les données de manière traçable.",
+      "Conserver les choix méthodologiques, paramètres, versions de code et données.",
+      "Discuter régulièrement des résultats avec l'encadrant et les co-auteurs.",
+      "Définir la structure de l'article et le rôle de chaque section."
+    ],
+    mistakes: [
+      "Écrire « la méthode donne de très bons résultats » sans critère mesurable.",
+      "Introduire dans le résumé des résultats absents du manuscrit.",
+      "Ne pas distinguer les résultats du travail de ceux déjà publiés."
+    ],
+    example: "Au lieu de « la méthode donne de très bons résultats », écrire « la méthode réduit l'erreur moyenne de 18% sur le jeu de test considéré »."
+  },
+  {
+    id: "c5", num: 5, title: "Style scientifique, résumé, méthodes quantitatives et qualitatives",
+    pages: "36–41",
+    summary: "Le résumé suit une logique : contexte, justification, objectif, méthode, résultats clés, conclusion. La recherche quantitative mesure, teste des hypothèses et utilise des statistiques ; la recherche qualitative comprend, interprète et explore un phénomène à partir de mots, discours, observations ou documents. Le choix dépend de la question de recherche et de la nature des données nécessaires.",
+    ideas: [
+      "Résumé : contexte → justification → objectif → méthode → résultats clés → conclusion.",
+      "Quantitatif : mesures, nombres, variables, statistiques ; objectif = mesurer, tester, estimer, comparer.",
+      "Qualitatif : mots, discours, observations, documents ; objectif = comprendre, interpréter, explorer.",
+      "Méthodes quantitatives : expériences, simulations, enquêtes fermées, bases de données.",
+      "Méthodes qualitatives : entretiens, observations, questions ouvertes, analyse de contenu.",
+      "Le choix ne dépend pas d'une préférence personnelle mais de la question de recherche."
+    ],
+    definitions: [
+      ["Recherche quantitative", "Approche visant à mesurer, tester une hypothèse, estimer ou comparer à partir de données numériques et de méthodes statistiques."],
+      ["Recherche qualitative", "Approche visant à comprendre, interpréter ou explorer un phénomène à partir de mots, discours, observations ou documents."],
+      ["Codage thématique", "Méthode d'analyse qualitative consistant à classer le contenu en thèmes et catégories."]
+    ],
+    keywords: ["quantitatif", "qualitatif", "résumé", "hypothèse", "codage thématique", "statistiques"],
+    steps: [
+      "Identifier l'origine des idées, méthodes, données et résultats antérieurs.",
+      "Permettre au lecteur de retrouver et vérifier les sources originales.",
+      "Situer la contribution dans l'état des connaissances existant.",
+      "Éviter l'appropriation indue du travail d'autrui.",
+      "Assurer la traçabilité du raisonnement scientifique."
+    ],
+    mistakes: [
+      "Choisir une méthode par préférence personnelle plutôt que par adéquation à la question.",
+      "Citer sans lien direct avec l'affirmation soutenue.",
+      "Confondre objectif quantitatif (mesurer) et objectif qualitatif (comprendre)."
+    ],
+    example: "Une étude sur la détection de l'idéation suicidaire dans les textes peut combiner classification automatique (quantitatif) et analyse qualitative des discours."
+  },
+  {
+    id: "c6", num: 6, title: "Références, DOI, Zotero, LaTeX/Overleaf et intégrité académique",
+    pages: "40–49",
+    summary: "Une référence doit être pertinente pour l'affirmation qu'elle soutient. Les styles de citation courants sont IEEE, Vancouver, APA et Chicago ; le style doit suivre les instructions de la revue. Le DOI est un identifiant unique et persistant. Zotero, Mendeley, EndNote et BibTeX/BibLaTeX facilitent la gestion bibliographique. LaTeX sépare le contenu de la mise en forme et assure la cohérence automatique. L'intégrité académique repose sur : originalité + attribution correcte + traçabilité.",
+    ideas: [
+      "Une référence doit être pertinente pour l'affirmation qu'elle soutient.",
+      "Styles : IEEE (ingénierie/informatique, numérotation [1]), Vancouver (médecine, numérotation 1, 2, 3), APA (sciences humaines/sociales, auteur-date), Chicago (humanités, notes ou auteur-date).",
+      "DOI = Digital Object Identifier, identifiant unique et persistant.",
+      "Zotero : collecte, organisation, annotation, insertion des citations, bibliographie automatique.",
+      "LaTeX : séparation contenu/mise en forme, cohérence automatique des numéros, références, équations, figures et citations.",
+      "Plagiat = utilisation d'idées, formulations, données ou productions d'autrui sans attribution appropriée."
+    ],
+    definitions: [
+      ["DOI", "Digital Object Identifier : identifiant unique et persistant pour de nombreuses publications numériques."],
+      ["Zotero", "Gestionnaire de références permettant la collecte, l'organisation, l'annotation, l'insertion des citations et la création automatique de bibliographies."],
+      ["BibTeX / BibLaTeX", "Systèmes de gestion native des références dans l'écosystème LaTeX."],
+      ["Plagiat", "Utilisation d'idées, formulations, données ou productions d'autrui sans attribution appropriée."]
+    ],
+    keywords: ["DOI", "Zotero", "BibTeX", "LaTeX", "Overleaf", "IEEE", "Vancouver", "APA", "Chicago", "plagiat", "intégrité académique"],
+    steps: [
+      "Installer Zotero Desktop et le connecteur du navigateur.",
+      "Enregistrer l'article depuis la page de l'éditeur ou une base bibliographique.",
+      "Vérifier les métadonnées importées : auteurs, titre, année, DOI, pagination.",
+      "Classer la référence dans une collection et ajouter des mots-clés ou notes.",
+      "Utiliser le plugin Word ou l'intégration BibTeX/BibLaTeX selon l'outil de rédaction.",
+      "Générer automatiquement la bibliographie dans le style demandé."
+    ],
+    mistakes: [
+      "Citer des articles sans les avoir lus ou compris.",
+      "Copier des passages sans citation correcte : risque de plagiat.",
+      "Faire confiance aux métadonnées récupérées en ligne sans les vérifier.",
+      "Reconstruire manuellement le sommaire ou la bibliographie après chaque modification."
+    ],
+    example: "On peut passer d'un style auteur-date (APA) à un style numéroté (IEEE) sans reconstruire manuellement toutes les références, grâce à Zotero."
+  },
+  {
+    id: "c7", num: 7, title: "Choix d'une revue, soumission, peer review, révision et publication",
+    pages: "50–55",
+    summary: "Le choix de la revue commence par la compatibilité scientifique entre le manuscrit et le lectorat visé : adéquation au scope, articles récents proches, indexation, indicateurs sans usage unique, frais, format. La soumission doit être techniquement complète : format, lettre d'accompagnement, auteurs, affiliations, conflits d'intérêts, financement, données. La peer review peut être simple aveugle, double aveugle ou ouverte. La réponse aux évaluateurs doit être point par point et scientifiquement argumentée.",
+    ideas: [
+      "Le meilleur choix n'est pas seulement la revue avec le plus grand indicateur : c'est celle où sujet, méthode et lectorat sont cohérents.",
+      "Une soumission techniquement incomplète peut être renvoyée avant même l'évaluation scientifique.",
+      "Peer review : l'éditeur fait un contrôle initial, puis transmet à des évaluateurs indépendants.",
+      "Modalités : simple aveugle, double aveugle ou ouverte.",
+      "La réponse aux évaluateurs doit répondre à chaque commentaire point par point.",
+      "Une bonne réponse ne cherche pas à convaincre par le ton : elle montre comment chaque question scientifique a été traitée."
+    ],
+    definitions: [
+      ["Peer review", "Évaluation par les pairs : processus où des évaluateurs indépendants examinent la nouveauté, la rigueur, la clarté, la méthodologie et l'interprétation d'un manuscrit."],
+      ["Lettre d'accompagnement (cover letter)", "Lettre présentant le sujet, la contribution et l'adéquation du manuscrit à la revue."],
+      ["Révision mineure / majeure", "Décisions éditoriales demandant des modifications plus ou moins importantes avant acceptation."]
+    ],
+    keywords: ["choix de revue", "soumission", "peer review", "cover letter", "révision", "publication", "Editorial Manager", "ScholarOne", "OJS"],
+    steps: [
+      "Vérifier l'adéquation entre le thème de l'article et le scope de la revue.",
+      "Lire des articles récents publiés dans cette revue.",
+      "Vérifier l'indexation : Scopus, Web of Science, SCIE, SSCI, etc.",
+      "Examiner les indicateurs sans les utiliser seuls.",
+      "Consulter les instructions aux auteurs.",
+      "Évaluer délais, modèle d'accès et réputation éditoriale.",
+      "Mettre le manuscrit au format demandé.",
+      "Préparer la lettre d'accompagnement.",
+      "Déposer les fichiers dans le système de soumission.",
+      "Vérifier le PDF généré avant validation définitive."
+    ],
+    mistakes: [
+      "Soumettre sans vérifier l'adéquation au scope de la revue.",
+      "Négliger les instructions aux auteurs et les fichiers obligatoires.",
+      "Répondre aux évaluateurs sans répondre point par point.",
+      "Confondre rapidité de publication et qualité scientifique."
+    ],
+    example: "Après acceptation, l'éditeur prépare les épreuves ; les auteurs vérifient noms, affiliations, équations, figures, tableaux et références. L'article reçoit ses informations bibliographiques définitives et généralement un DOI."
+  },
+  {
+    id: "c8", num: 8, title: "Rédaction et structuration d'un rapport ou mémoire de PFE",
+    pages: "56–72",
+    summary: "Le mémoire de PFE n'est pas un journal chronologique du stage : c'est une reconstruction scientifique organisée autour d'une problématique, d'une méthode et de résultats. Architecture générale : éléments préliminaires, introduction générale, chapitre 1 (état de l'art), chapitre 2 (matériels et méthodologie), chapitre 3 (résultats et discussion), chapitre supplémentaire si nécessaire, conclusion générale et perspectives, références, annexes. Chaque chapitre doit avoir un objectif identifiable, une introduction et une conclusion.",
+    ideas: [
+      "Le mémoire n'est pas un journal chronologique : c'est une reconstruction scientifique organisée.",
+      "Éléments préliminaires : page de garde, remerciements, résumé, mots-clés, abstract, table des matières, listes des figures et tableaux, liste des abréviations.",
+      "Introduction : contexte, problématique, état des connaissances, besoin/lacune, objectifs, démarche, organisation.",
+      "Chapitre 1 : état de l'art (pas une collection de résumés, mais une progression vers la problématique).",
+      "Chapitre 2 : matériels et méthodologie (permettre à un autre chercheur de comprendre comment les résultats ont été obtenus).",
+      "Chapitre 3 : résultats et discussion (présenter ne suffit pas, il faut expliquer ce que le résultat signifie).",
+      "Conclusion : rappeler problématique et objectifs, résumer les résultats, mettre en évidence les contributions, proposer des perspectives."
+    ],
+    definitions: [
+      ["Mémoire de PFE", "Rapport de projet de fin d'études présentant de manière structurée le problème étudié, les choix méthodologiques, les résultats et la contribution personnelle de l'étudiant."],
+      ["État de l'art", "Synthèse structurée des approches existantes conduisant progressivement vers la problématique du PFE."],
+      ["Perspectives", "Pistes d'amélioration ou d'étude complémentaire directement liées aux résultats obtenus."]
+    ],
+    keywords: ["mémoire", "PFE", "état de l'art", "méthodologie", "résultats", "discussion", "conclusion", "perspectives", "table des matières"],
+    steps: [
+      "Présenter le contexte général du sujet.",
+      "Introduire la problématique scientifique ou technique.",
+      "Résumer l'état des connaissances nécessaire.",
+      "Identifier le besoin, la difficulté ou la lacune.",
+      "Formuler les objectifs du travail.",
+      "Expliquer brièvement la démarche adoptée.",
+      "Présenter l'organisation du mémoire.",
+      "Rédiger chaque chapitre avec introduction, sections, analyse/discussion et conclusion.",
+      "Vérifier la cohérence bibliographique et les renvois.",
+      "Contrôler le PDF final."
+    ],
+    mistakes: [
+      "Raconter le stage de manière chronologique au lieu de construire un raisonnement scientifique.",
+      "Faire un état de l'art qui est une collection de résumés sans fil directeur.",
+      "Présenter des résultats sans les interpréter.",
+      "Laisser une figure ou un tableau non cité dans le texte.",
+      "Reconstruire manuellement le sommaire après chaque modification."
+    ],
+    example: "Une figure ou un tableau doit apporter une information utile. Il ne doit pas être ajouté uniquement pour remplir le document. Utiliser les styles Word ou les commandes LaTeX pour gérer la hiérarchie des titres automatiquement."
+  }
+];
+
+/* ---------- QCM (banque de questions) ---------- */
+const QUESTIONS = [
+  // Chapitre 1
+  {id:"q1", ch:"c1", page:4, diff:"facile", q:"Que regroupe la littérature scientifique ?",
+   opts:["Les publications qui communiquent des résultats de recherche et des connaissances validées","Uniquement les articles de journaux quotidiens","Les blogs personnels et forums","Les manuels scolaires de niveau primaire"],
+   ans:0, exp:"La littérature scientifique regroupe les publications qui communiquent des résultats de recherche et des connaissances validées (page 4)."},
+  {id:"q2", ch:"c1", page:4, diff:"facile", q:"Parmi ces documents, lequel n'est PAS cité comme type de littérature scientifique dans le cours ?",
+   opts:["Article de recherche","Article de synthèse","Rapport de stage non publié d'un étudiant","Thèse"],
+   ans:2, exp:"Le cours cite : articles de recherche, articles de synthèse, communications de conférences, livres, chapitres, thèses et rapports scientifiques. Un rapport de stage non publié n'est pas mentionné comme littérature scientifique validée (page 4)."},
+  {id:"q3", ch:"c1", page:5, diff:"moyen", q:"Pourquoi chercher la littérature scientifique ?",
+   opts:["Pour comprendre l'état actuel des connaissances, identifier les études antérieures et repérer les lacunes de recherche","Uniquement pour remplir la bibliographie","Pour éviter de lire les articles récents","Pour copier des passages sans les citer"],
+   ans:0, exp:"Les objectifs incluent : comprendre l'état des connaissances, identifier les études antérieures, trouver les théories et méthodes, repérer les lacunes, appuyer les arguments par des références fiables, éviter de refaire inutilement un travail déjà publié (page 5)."},
+  {id:"q4", ch:"c1", page:6, diff:"moyen", q:"Quel type de document présente une contribution nouvelle avec méthode, résultats et discussion ?",
+   opts:["Article original","Revue de synthèse","Actes de conférence","Prépublication"],
+   ans:0, exp:"L'article original présente une contribution nouvelle, avec méthode, résultats et discussion (page 6)."},
+  {id:"q5", ch:"c1", page:6, diff:"moyen", q:"Quel type de document résume et organise plusieurs travaux sur un thème donné ?",
+   opts:["Article original","Revue de synthèse","Thèse","Livre scientifique"],
+   ans:1, exp:"La revue de synthèse résume et organise plusieurs travaux sur un thème donné (page 6)."},
+  {id:"q6", ch:"c1", page:6, diff:"facile", q:"Qu'est-ce qu'une prépublication ?",
+   opts:["Une version déposée avant ou pendant l'évaluation par les pairs, par exemple sur arXiv","Un article déjà publié dans une revue Q1","Un résumé de conférence","Un rapport administratif"],
+   ans:0, exp:"La prépublication est une version déposée avant ou pendant l'évaluation par les pairs, par exemple sur arXiv (page 6)."},
+  {id:"q7", ch:"c1", page:11, diff:"moyen", q:"Parmi ces critères, lequel n'est PAS un critère d'évaluation d'une source cité dans le cours ?",
+   opts:["Pertinence","Qualité scientifique","Popularité sur les réseaux sociaux","Crédibilité"],
+   ans:2, exp:"Les critères cités sont : pertinence, qualité scientifique, actualité, crédibilité, impact, cohérence. La popularité sur les réseaux sociaux n'est pas un critère scientifique (page 11)."},
+  {id:"q8", ch:"c1", page:12, diff:"facile", q:"Quel est l'ordre correct du cycle de travail sur la littérature ?",
+   opts:["Chercher → Sélectionner → Évaluer → Lire → Citer → Rédiger","Lire → Chercher → Rédiger → Citer → Évaluer","Rédiger → Citer → Lire → Chercher → Sélectionner","Chercher → Rédiger → Citer → Lire → Évaluer"],
+   ans:0, exp:"Le cycle présenté page 12 est : 1. Chercher, 2. Sélectionner, 3. Évaluer, 4. Lire, 5. Citer, 6. Rédiger."},
+
+  // Chapitre 2
+  {id:"q9", ch:"c2", page:14, diff:"facile", q:"Qui développe Scopus ?",
+   opts:["Elsevier","Clarivate","Springer","IEEE"],
+   ans:0, exp:"Scopus est une grande base bibliographique et de citations développée par Elsevier (page 14, 17)."},
+  {id:"q10", ch:"c2", page:15, diff:"facile", q:"Qui développe Web of Science ?",
+   opts:["Clarivate","Elsevier","Google","Microsoft"],
+   ans:0, exp:"Web of Science est une plateforme de Clarivate (page 15)."},
+  {id:"q11", ch:"c2", page:15, diff:"moyen", q:"Quels index de citations sont cités comme faisant partie de Web of Science ?",
+   opts:["SCIE et SSCI","CiteScore et JIF","Scopus et JCR","arXiv et HAL"],
+   ans:0, exp:"Web of Science contient plusieurs index de citations, dont SCIE et SSCI (page 15)."},
+  {id:"q12", ch:"c2", page:18, diff:"difficile", q:"Quelle affirmation est correcte concernant Scopus et Web of Science ?",
+   opts:["Ils sont complémentaires : leurs couvertures, indicateurs et catégories ne sont pas toujours identiques","Ils indexent exactement les mêmes revues avec les mêmes indicateurs","Scopus utilise le JIF et Web of Science utilise CiteScore","Les deux bases appartiennent à Elsevier"],
+   ans:0, exp:"Les deux bases sont complémentaires : leurs couvertures, indicateurs et catégories ne sont pas toujours identiques (page 18)."},
+  {id:"q13", ch:"c2", page:19, diff:"moyen", q:"Dans une stratégie de recherche documentaire, que permet l'opérateur OR ?",
+   opts:["Ajouter des synonymes pour élargir la recherche","Restreindre la recherche à un seul terme","Exclure un terme","Trier les résultats par année"],
+   ans:0, exp:"L'étape 3 de la stratégie est : ajouter des synonymes avec OR et des contraintes avec AND (page 19)."},
+  {id:"q14", ch:"c2", page:19, diff:"moyen", q:"Quelle est la première étape d'une stratégie de recherche selon le cours ?",
+   opts:["Commencer par une requête large avec 2 ou 3 mots-clés","Exporter directement vers Zotero","Filtrer par années récentes","Trier par nombre de citations"],
+   ans:0, exp:"La stratégie commence par une requête large avec 2 ou 3 mots-clés (page 19)."},
+
+  // Chapitre 3
+  {id:"q15", ch:"c3", page:20, diff:"facile", q:"Quelle est la fenêtre de citation du Journal Impact Factor (JIF) ?",
+   opts:["2 ans","4 ans","5 ans","1 an"],
+   ans:0, exp:"Le JIF considère généralement les citations reçues par les articles publiés pendant les deux années précédentes (page 20)."},
+  {id:"q16", ch:"c3", page:20, diff:"moyen", q:"Qui fournit le Journal Impact Factor ?",
+   opts:["Clarivate via Journal Citation Reports","Elsevier via Scopus","Springer via SpringerLink","Google Scholar"],
+   ans:0, exp:"Le JIF est fourni par Clarivate via Journal Citation Reports (page 20, 23)."},
+  {id:"q17", ch:"c3", page:20, diff:"difficile", q:"Quelle affirmation est correcte à propos du JIF ?",
+   opts:["C'est un indicateur de revue, pas un indicateur de qualité d'un article individuel","C'est un indicateur de la qualité d'un chercheur","C'est un indicateur de la qualité d'un article individuel","C'est un indicateur du nombre de téléchargements"],
+   ans:0, exp:"Le JIF est un indicateur de revue, pas un indicateur de qualité d'un article individuel ni d'un chercheur (page 20)."},
+  {id:"q18", ch:"c3", page:24, diff:"facile", q:"À quelle base est associé CiteScore ?",
+   opts:["Scopus","Web of Science","JCR","arXiv"],
+   ans:0, exp:"CiteScore est un indicateur de revue associé à la base Scopus (page 24)."},
+  {id:"q19", ch:"c3", page:24, diff:"moyen", q:"Quelle est la fenêtre de citation de CiteScore ?",
+   opts:["4 ans","2 ans","5 ans","1 an"],
+   ans:0, exp:"CiteScore utilise une fenêtre de citation de quatre ans (page 24)."},
+  {id:"q20", ch:"c3", page:27, diff:"facile", q:"Que signifie Q1 dans le classement des revues ?",
+   opts:["Le premier quart, soit les 25% les mieux classées de la catégorie","Le dernier quart du classement","La première revue publiée dans l'année","Le premier auteur de l'article"],
+   ans:0, exp:"Q1 correspond aux 25% les mieux classées de la catégorie (page 27)."},
+  {id:"q21", ch:"c3", page:27, diff:"moyen", q:"Un quartile est toujours relatif à quoi ?",
+   opts:["Une catégorie disciplinaire","Un pays","Un éditeur","Une année de publication"],
+   ans:0, exp:"Un quartile est toujours relatif à une catégorie : une revue peut être Q1 dans une catégorie et Q2 dans une autre (page 27, 28)."},
+  {id:"q22", ch:"c3", page:22, diff:"difficile", q:"Avec les données du cours, quel est le JIF 2026 si les citations reçues en 2026 sont 315 et les articles publiés 240 ?",
+   opts:["1,313","1,500","0,762","2,625"],
+   ans:0, exp:"JIF = 315 / 240 = 1,313 (page 22)."},
+  {id:"q23", ch:"c3", page:29, diff:"moyen", q:"Pourquoi la vérification par ISSN est-elle importante ?",
+   opts:["Parce que certaines revues ont des noms similaires ou des sites frauduleux imitant des revues reconnues","Parce que l'ISSN indique le facteur d'impact","Parce que l'ISSN remplace le DOI","Parce que l'ISSN est obligatoire pour publier"],
+   ans:0, exp:"La vérification par ISSN est importante car certaines revues ont des noms similaires ou des sites frauduleux imitant des revues reconnues (page 29)."},
+
+  // Chapitre 4
+  {id:"q24", ch:"c4", page:32, diff:"facile", q:"Quelle est la première étape du processus de publication ?",
+   opts:["Recherche","Préparation du manuscrit","Choix de la revue","Soumission"],
+   ans:0, exp:"Le processus commence par la recherche, puis préparation du manuscrit, choix de la revue, soumission, évaluation par les pairs, révision, publication (page 32)."},
+  {id:"q25", ch:"c4", page:35, diff:"facile", q:"Quelle est la structure classique d'un article scientifique présentée dans le cours ?",
+   opts:["Titre, Résumé et mots-clés, Introduction, Matériels et méthodes, Résultats, Discussion, Conclusion, Références","Introduction, Conclusion, Résultats, Méthodes, Références","Résumé, Discussion, Introduction, Méthodes, Conclusion","Titre, Introduction, Conclusion, Références, Annexes"],
+   ans:0, exp:"La structure classique présentée page 35 est : Titre, Résumé et mots-clés, Introduction, Matériels et méthodes, Résultats, Discussion, Conclusion, Références."},
+  {id:"q26", ch:"c4", page:38, diff:"moyen", q:"Que doit contenir un résumé selon le cours ?",
+   opts:["Contexte, justification, objectif, méthode, résultats clés, conclusion","Uniquement l'objectif et la conclusion","La bibliographie complète","Les remerciements"],
+   ans:0, exp:"Le résumé doit comprendre : contexte, justification, objectif, méthode, résultats clés, conclusion (page 38)."},
+  {id:"q27", ch:"c4", page:38, diff:"difficile", q:"Quelle affirmation est vraie à propos du résumé ?",
+   opts:["Il doit pouvoir être compris sans lire immédiatement le reste de l'article et ne doit pas introduire de résultats absents du manuscrit","Il peut annoncer des résultats qui ne sont pas dans l'article","Il doit obligatoirement contenir la bibliographie","Il remplace la conclusion"],
+   ans:0, exp:"Le résumé doit pouvoir être compris sans lire immédiatement le reste de l'article. Il ne doit pas introduire de résultats absents du manuscrit (page 38)."},
+  {id:"q28", ch:"c4", page:37, diff:"moyen", q:"Quelle formulation est la plus conforme au style scientifique selon le cours ?",
+   opts:["« la méthode réduit l'erreur moyenne de 18% sur le jeu de test considéré »","« la méthode donne de très bons résultats »","« la méthode est super géniale »","« les résultats sont plutôt pas mal »"],
+   ans:0, exp:"Le cours recommande de remplacer « la méthode donne de très bons résultats » par « la méthode réduit l'erreur moyenne de 18% sur le jeu de test considéré » (page 37)."},
+
+  // Chapitre 5
+  {id:"q29", ch:"c5", page:39, diff:"facile", q:"Quel est l'objectif principal d'une recherche quantitative ?",
+   opts:["Mesurer, tester une hypothèse, estimer, comparer","Comprendre, interpréter, explorer un phénomène","Rédiger un mémoire sans données","Faire une revue de presse"],
+   ans:0, exp:"La recherche quantitative vise à mesurer, tester une hypothèse, estimer, comparer (page 39)."},
+  {id:"q30", ch:"c5", page:39, diff:"facile", q:"Quel type de données caractérise la recherche qualitative ?",
+   opts:["Mots, discours, observations, documents","Mesures, nombres, variables, statistiques","Uniquement des bases de données numériques","Uniquement des simulations"],
+   ans:0, exp:"La recherche qualitative utilise des mots, discours, observations, documents (page 39)."},
+  {id:"q31", ch:"c5", page:39, diff:"moyen", q:"Quelle méthode est associée à la recherche qualitative ?",
+   opts:["Entretiens, observations, questions ouvertes, analyse de contenu","Expériences, simulations, enquêtes fermées","Régressions et tests statistiques","Bases de données chiffrées"],
+   ans:0, exp:"La recherche qualitative utilise entretiens, observations, questions ouvertes, analyse de contenu (page 39)."},
+  {id:"q32", ch:"c5", page:39, diff:"difficile", q:"De quoi dépend le choix entre recherche quantitative et qualitative ?",
+   opts:["De la question de recherche et de la nature des données nécessaires pour y répondre","De la préférence personnelle du chercheur","De la disponibilité d'un logiciel","Du nombre de pages du mémoire"],
+   ans:0, exp:"Le choix ne dépend pas d'une préférence personnelle : il dépend de la question de recherche et de la nature des données nécessaires pour y répondre (page 39)."},
+
+  // Chapitre 6
+  {id:"q33", ch:"c6", page:40, diff:"facile", q:"Pourquoi une référence doit-elle être pertinente ?",
+   opts:["Parce qu'elle doit soutenir l'affirmation à laquelle elle est associée","Parce qu'elle doit être ancienne","Parce qu'elle doit être populaire","Parce qu'elle doit être en anglais"],
+   ans:0, exp:"Une référence doit être pertinente pour l'affirmation qu'elle soutient. Ajouter une citation sans lien direct affaiblit l'argument (page 40)."},
+  {id:"q34", ch:"c6", page:41, diff:"moyen", q:"Quel style de citation est fréquemment utilisé en ingénierie et informatique ?",
+   opts:["IEEE","APA","Chicago","Vancouver"],
+   ans:0, exp:"IEEE est fréquent en ingénierie et informatique, avec numérotation [1], [2], [3] (page 41)."},
+  {id:"q35", ch:"c6", page:41, diff:"moyen", q:"Quel style utilise le système auteur-date (Smith, 2024) ?",
+   opts:["APA","IEEE","Vancouver","Chicago"],
+   ans:0, exp:"APA (sciences humaines et sociales) utilise le système auteur-date : (Smith, 2024) (page 41)."},
+  {id:"q36", ch:"c6", page:42, diff:"facile", q:"Que signifie DOI ?",
+   opts:["Digital Object Identifier","Document Officiel Indexé","Donnée Ouverte Identifiée","Direct Object Interface"],
+   ans:0, exp:"DOI signifie Digital Object Identifier (page 42)."},
+  {id:"q37", ch:"c6", page:42, diff:"moyen", q:"Quel est l'avantage principal d'un DOI ?",
+   opts:["Il fournit un identifiant unique et persistant pour de nombreuses publications numériques","Il remplace la bibliographie","Il indique le facteur d'impact","Il certifie la qualité scientifique"],
+   ans:0, exp:"Le DOI fournit un identifiant unique et persistant et facilite la localisation d'un article même si l'adresse du site change (page 42)."},
+  {id:"q38", ch:"c6", page:43, diff:"moyen", q:"Quel outil est un gestionnaire de références cité dans le cours ?",
+   opts:["Zotero","Photoshop","Excel","PowerPoint"],
+   ans:0, exp:"Zotero, Mendeley, EndNote et BibTeX/BibLaTeX sont cités comme gestionnaires de références (page 43)."},
+  {id:"q39", ch:"c6", page:46, diff:"moyen", q:"Quel est le principal avantage de LaTeX selon le cours ?",
+   opts:["La cohérence automatique des numéros, références, équations, figures et citations","La beauté des couleurs","La rapidité de frappe","La traduction automatique"],
+   ans:0, exp:"Le principal avantage de LaTeX n'est pas seulement l'esthétique : c'est la cohérence automatique des numéros, références, équations, figures et citations (page 46)."},
+  {id:"q40", ch:"c6", page:47, diff:"moyen", q:"Quelle équation résume l'intégrité scientifique selon le cours ?",
+   opts:["Originalité + Attribution correcte + Traçabilité = Intégrité scientifique","Vitesse + Quantité + Popularité = Réussite","Copie + Citation + Publication = Recherche","Impact + Quartile + JIF = Qualité"],
+   ans:0, exp:"La formule présentée page 47 est : Originalité + Attribution correcte + Traçabilité = Intégrité scientifique."},
+  {id:"q41", ch:"c6", page:47, diff:"difficile", q:"Qu'est-ce qu'une paraphrase correcte selon le cours ?",
+   opts:["Reformuler réellement l'idée et conserver la citation de la source originale","Copier le texte en changeant un mot sur deux","Traduire le texte sans citer la source","Résumer sans indiquer la source"],
+   ans:0, exp:"Une paraphrase doit reformuler réellement l'idée et conserver la citation de la source originale (page 47)."},
+
+  // Chapitre 7
+  {id:"q42", ch:"c7", page:50, diff:"moyen", q:"Que faut-il vérifier en priorité lors du choix d'une revue ?",
+   opts:["L'adéquation entre le sujet du manuscrit et les aims and scope de la revue","Le nombre de followers de la revue sur les réseaux sociaux","La couleur du logo de la revue","Le nombre de pages du site web"],
+   ans:0, exp:"Le bon choix de revue commence par la compatibilité scientifique entre le manuscrit et le lectorat visé : adéquation au scope (page 50)."},
+  {id:"q43", ch:"c7", page:51, diff:"moyen", q:"Que doit contenir une lettre d'accompagnement ?",
+   opts:["Le sujet, la contribution et l'adéquation du manuscrit à la revue","Uniquement les remerciements","La liste complète des références","Le code source de l'étude"],
+   ans:0, exp:"La lettre d'accompagnement présente le sujet, la contribution et l'adéquation à la revue (page 51)."},
+  {id:"q44", ch:"c7", page:52, diff:"moyen", q:"Quelles sont les modalités possibles de peer review citées ?",
+   opts:["Simple aveugle, double aveugle ou ouverte","Uniquement double aveugle","Uniquement ouverte","Uniquement simple aveugle"],
+   ans:0, exp:"Les modalités peuvent être simple aveugle, double aveugle ou ouvertes selon la revue (page 52)."},
+  {id:"q45", ch:"c7", page:53, diff:"difficile", q:"Quelle est la bonne attitude face aux commentaires des évaluateurs ?",
+   opts:["Répondre à chaque commentaire point par point et expliquer scientifiquement les modifications ou les raisons de ne pas suivre une suggestion","Ignorer les commentaires trop sévères","Répondre uniquement au premier commentaire","Modifier le manuscrit sans expliquer les changements"],
+   ans:0, exp:"Il faut répondre à chaque commentaire point par point, indiquer clairement les modifications et expliquer scientifiquement lorsqu'une suggestion n'est pas suivie (page 53)."},
+  {id:"q46", ch:"c7", page:54, diff:"moyen", q:"Que se passe-t-il après acceptation d'un article ?",
+   opts:["L'éditeur prépare les épreuves et les auteurs vérifient noms, affiliations, équations, figures, tableaux et références","L'article est immédiatement supprimé","Les auteurs doivent recommencer la recherche","Le manuscrit est envoyé à une autre revue"],
+   ans:0, exp:"Après acceptation, l'éditeur prépare les épreuves de l'article ; les auteurs vérifient soigneusement les noms, affiliations, équations, figures, tableaux et références (page 54)."},
+
+  // Chapitre 8
+  {id:"q47", ch:"c8", page:56, diff:"facile", q:"Qu'est-ce qu'un mémoire de PFE selon le cours ?",
+   opts:["Une reconstruction scientifique organisée autour d'une problématique, d'une méthode et de résultats","Un journal chronologique du stage","Un recueil de citations","Un rapport administratif"],
+   ans:0, exp:"Le mémoire n'est pas un journal chronologique du stage. C'est une reconstruction scientifique organisée autour d'une problématique, d'une méthode et de résultats (page 56)."},
+  {id:"q48", ch:"c8", page:57, diff:"moyen", q:"Quelle est l'architecture générale d'un mémoire de PFE ?",
+   opts:["Éléments préliminaires, introduction générale, chapitre 1 (état de l'art), chapitre 2 (matériels et méthodologie), chapitre 3 (résultats et discussion), conclusion générale et perspectives, références, annexes","Introduction, conclusion, annexes","Chapitre 1, chapitre 2, chapitre 3, sans introduction ni conclusion","Résumé, bibliographie, remerciements"],
+   ans:0, exp:"L'architecture générale présentée page 57 suit cet ordre."},
+  {id:"q49", ch:"c8", page:59, diff:"moyen", q:"Que doit permettre de savoir l'introduction d'un mémoire à la fin de sa lecture ?",
+   opts:["Pourquoi le travail est nécessaire, ce qui sera fait et comment le mémoire est organisé","Uniquement le nom de l'entreprise d'accueil","La liste complète des références","Le budget du projet"],
+   ans:0, exp:"À la fin de l'introduction, le lecteur doit savoir pourquoi le travail est nécessaire, ce qui sera fait et comment le mémoire est organisé (page 59)."},
+  {id:"q50", ch:"c8", page:62, diff:"difficile", q:"Qu'est-ce qu'un état de l'art réussi selon le cours ?",
+   opts:["Une progression qui conduit vers la problématique du PFE, et non une collection de résumés article par article","Une liste exhaustive de tous les articles trouvés","Un résumé de chaque article sans fil directeur","Une simple bibliographie annotée"],
+   ans:0, exp:"Un état de l'art n'est pas une collection de résumés : il doit conduire progressivement vers la problématique du PFE (page 62)."},
+  {id:"q51", ch:"c8", page:64, diff:"moyen", q:"Que doit faire le chapitre résultats et discussion ?",
+   opts:["Présenter les résultats et expliquer ce qu'ils signifient, en les interprétant et en les comparant à la littérature","Uniquement afficher des tableaux sans commentaire","Recopier les résultats d'autres articles","Présenter la bibliographie"],
+   ans:0, exp:"Présenter un résultat ne suffit pas : le mémoire doit expliquer ce que ce résultat signifie, l'interpréter et comparer avec la littérature (page 64)."},
+  {id:"q52", ch:"c8", page:66, diff:"moyen", q:"Quelle question directrice guide la conclusion d'un PFE ?",
+   opts:["Qu'avons-nous appris, démontré ou réalisé grâce à ce PFE ?","Combien de pages contient le mémoire ?","Quel est le budget du projet ?","Qui a relu le mémoire ?"],
+   ans:0, exp:"La question directrice de la conclusion est : Qu'avons-nous appris, démontré ou réalisé grâce à ce PFE ? (page 66)."},
+  {id:"q53", ch:"c8", page:68, diff:"facile", q:"Comment doit-on gérer la hiérarchie des titres dans un mémoire ?",
+   opts:["Utiliser les styles Word ou les commandes LaTeX pour la gérer automatiquement","Créer les numéros manuellement à chaque modification","Utiliser uniquement des majuscules","Ne pas numéroter les titres"],
+   ans:0, exp:"Il faut utiliser les styles Word ou les commandes LaTeX pour gérer cette hiérarchie automatiquement. Éviter de créer les numéros manuellement (page 68)."},
+  {id:"q54", ch:"c8", page:71, diff:"moyen", q:"Quelle affirmation est vraie concernant la bibliographie d'un mémoire ?",
+   opts:["Toute source citée dans le texte doit apparaître dans la bibliographie et toute référence de la bibliographie doit être effectivement utilisée","On peut ajouter des références non citées pour augmenter le nombre","La bibliographie est facultative","Les références peuvent être incomplètes"],
+   ans:0, exp:"Toute source citée dans le texte doit apparaître dans la bibliographie et toute référence de la bibliographie doit être effectivement utilisée dans le mémoire (page 71)."},
+  {id:"q55", ch:"c8", page:72, diff:"moyen", q:"Sur quel document doit-on faire la dernière vérification ?",
+   opts:["Le PDF final","Le brouillon manuscrit","Le fichier source uniquement","La présentation orale"],
+   ans:0, exp:"La dernière vérification doit être faite sur le PDF final, car certaines erreurs n'apparaissent qu'après compilation ou export (page 72)."},
+
+  // Questions transversales
+  {id:"q56", ch:"c3", page:30, diff:"difficile", q:"Quel est le « meilleur choix » de revue selon le cours ?",
+   opts:["La revue où le sujet, la méthode et le lectorat sont cohérents","La revue avec le plus grand indicateur, sans autre critère","La revue qui publie le plus vite","La revue la plus connue du grand public"],
+   ans:0, exp:"Le meilleur choix n'est pas seulement la revue avec le plus grand indicateur. C'est la revue où le sujet, la méthode et le lectorat sont cohérents (page 30)."},
+  {id:"q57", ch:"c7", page:55, diff:"moyen", q:"Que faut-il distinguer dans les délais d'une publication ?",
+   opts:["Le temps de recherche, le temps éditorial et le temps de révision par les auteurs","Uniquement le temps de soumission","Uniquement le temps d'impression","Le temps de traduction"],
+   ans:0, exp:"Les délais varient fortement d'une revue à l'autre. Il faut distinguer le temps de recherche, le temps éditorial et le temps de révision par les auteurs (page 55)."},
+  {id:"q58", ch:"c1", page:8, diff:"moyen", q:"Parmi ces outils de recherche documentaire, lesquels sont des moteurs ou bases cités dans le cours ?",
+   opts:["Google Scholar, Scopus, Web of Science","Photoshop, Illustrator","Word, Excel","Windows, Linux"],
+   ans:0, exp:"Le panorama des outils cite des moteurs (Google Scholar), des bases (Scopus, Web of Science), des éditeurs (ScienceDirect, SpringerLink), des dépôts ouverts (arXiv/HAL) et des réseaux académiques (ResearchGate) (page 8)."},
+  {id:"q59", ch:"c1", page:8, diff:"facile", q:"Pourquoi utiliser plusieurs outils de recherche documentaire ?",
+   opts:["Pour augmenter les chances de ne pas manquer des articles importants","Pour perdre du temps","Pour éviter de lire les articles","Pour augmenter artificiellement le nombre de références"],
+   ans:0, exp:"La remarque page 8 indique : utiliser plusieurs outils augmente les chances de ne pas manquer des articles importants."},
+  {id:"q60", ch:"c2", page:9, diff:"moyen", q:"Quelle est la première étape pour passer de la question de recherche aux mots-clés ?",
+   opts:["Définir le thème général","Chercher des synonymes","Construire des requêtes booléennes","Extraire les concepts importants"],
+   ans:0, exp:"L'étape 1 est : définir le thème général (page 9). Les étapes suivantes sont : transformer le thème en question précise, extraire les concepts importants, chercher des synonymes, construire des requêtes booléennes."}
+];
+
+/* ---------- GLOSSAIRE ---------- */
+const GLOSSARY = [
+  {term:"Littérature scientifique", def:"Ensemble des publications qui communiquent des résultats de recherche et des connaissances validées.", ar:"الأدبيات العلمية: مجموع المنشورات التي تنقل نتائج البحث والمعارف المحققة.", page:4, rel:["Article original","Revue de synthèse","Prépublication"]},
+  {term:"Article original", def:"Article présentant une contribution nouvelle, avec méthode, résultats et discussion.", ar:"مقال أصلي: يقدم مساهمة جديدة مع المنهج والنتائج والمناقشة.", page:6, rel:["Revue de synthèse","Littérature scientifique"]},
+  {term:"Revue de synthèse", def:"Document qui résume et organise plusieurs travaux sur un thème donné.", ar:"مراجعة تركيبية: تلخص وتنظم عدة أعمال حول موضوع معين.", page:6, rel:["Article original","État de l'art"]},
+  {term:"Prépublication", def:"Version déposée avant ou pendant l'évaluation par les pairs, par exemple sur arXiv.", ar:"مسودة ما قبل النشر: نسخة تودع قبل أو أثناء مراجعة الأقران، مثلاً على arXiv.", page:6, rel:["Peer review","arXiv"]},
+  {term:"Lacune de recherche", def:"Limite, question ouverte ou hypothèse non vérifiée identifiée dans la littérature existante.", ar:"فجوة بحثية: حد أو سؤال مفتوح أو فرضية غير محققة في الأدبيات.", page:5, rel:["État de l'art","Problématique"]},
+  {term:"Scopus", def:"Grande base bibliographique et de citations développée par Elsevier.", ar:"سكوبس: قاعدة ببليوغرافية ومرجعية كبيرة طورتها إلسيفير.", page:14, rel:["Web of Science","CiteScore"]},
+  {term:"Web of Science", def:"Plateforme de Clarivate indexant des publications scientifiques et académiques, avec plusieurs index de citations (SCIE, SSCI, etc.).", ar:"ويب أوف ساينس: منصة من كلاريفيت تفهرس المنشورات العلمية والأكاديمية.", page:15, rel:["Scopus","JIF","JCR"]},
+  {term:"SCIE / SSCI", def:"Index de citations de Web of Science : Science Citation Index Expanded et Social Sciences Citation Index.", ar:"فهارس الاقتباس في ويب أوف ساينس: SCIE و SSCI.", page:15, rel:["Web of Science"]},
+  {term:"Journal Impact Factor (JIF)", def:"Indicateur de visibilité moyenne d'une revue, calculé comme le nombre moyen de citations reçues par les articles éligibles publiés dans la revue sur une fenêtre de 2 ans.", ar:"معامل التأثير: مؤشر لمتوسط ظهور المجلة، يحسب على مدى سنتين.", page:20, rel:["JCR","CiteScore","Quartile"]},
+  {term:"CiteScore", def:"Indicateur de revue associé à Scopus, mesurant l'impact citationnel des publications indexées sur une fenêtre de 4 ans.", ar:"سايت سكور: مؤشر مجلات مرتبط بسكوبس، يقيس التأثير الاستشاري على مدى 4 سنوات.", page:24, rel:["Scopus","JIF"]},
+  {term:"Quartile", def:"Position relative d'une revue dans une catégorie disciplinaire, divisée en quatre groupes (Q1 à Q4).", ar:"الربع: موقع نسبي لمجلة داخل فئة تخصصية، مقسم إلى أربع مجموعات (Q1–Q4).", page:27, rel:["JIF","CiteScore"]},
+  {term:"JCR", def:"Journal Citation Reports : source officielle du Journal Impact Factor, fournie par Clarivate.", ar:"تقارير الاستشهاد بالمجلات: المصدر الرسمي لمعامل التأثير من كلاريفيت.", page:23, rel:["JIF","Clarivate"]},
+  {term:"Peer review", def:"Évaluation par les pairs : processus où des évaluateurs indépendants examinent la nouveauté, la rigueur, la clarté, la méthodologie et l'interprétation d'un manuscrit.", ar:"مراجعة الأقران: عملية يفحص فيها مقيمون مستقلون أصالة العمل ودقته ووضوحه ومنهجه.", page:52, rel:["Soumission","Révision"]},
+  {term:"DOI", def:"Digital Object Identifier : identifiant unique et persistant pour de nombreuses publications numériques.", ar:"معرف الكائن الرقمي: معرف فريد ودائم للعديد من المنشورات الرقمية.", page:42, rel:["Zotero","BibTeX"]},
+  {term:"Zotero", def:"Gestionnaire de références permettant la collecte, l'organisation, l'annotation, l'insertion des citations et la création automatique de bibliographies.", ar:"زوتيرو: مدير مراجع لجمع وتنظيم وتأشير وإدراج الاستشهادات وإنشاء الببليوغرافيا تلقائياً.", page:43, rel:["DOI","BibTeX"]},
+  {term:"BibTeX / BibLaTeX", def:"Systèmes de gestion native des références dans l'écosystème LaTeX.", ar:"بيب تيكس / بيب لاتيكس: أنظمة لإدارة المراجع في بيئة لاتيكس.", page:43, rel:["LaTeX","Zotero"]},
+  {term:"LaTeX", def:"Système de composition de documents séparant le contenu scientifique de la mise en forme, adapté aux équations, tableaux, figures et bibliographies.", ar:"لاتيكس: نظام لتحرير الوثائق يفصل المحتوى عن التنسيق، مناسب للمعادلات والجداول والمراجع.", page:46, rel:["Overleaf","BibTeX"]},
+  {term:"Plagiat", def:"Utilisation d'idées, formulations, données ou productions d'autrui sans attribution appropriée.", ar:"الانتحال: استخدام أفكار أو صياغات أو بيانات أو إنتاجات الآخرين دون إسناد مناسب.", page:47, rel:["Intégrité académique","Citation"]},
+  {term:"Intégrité académique", def:"Respect des règles d'originalité, d'attribution correcte et de traçabilité dans le travail scientifique.", ar:"النزاهة الأكاديمية: احترام قواعد الأصالة والإسناد الصحيح والتتبع في العمل العلمي.", page:47, rel:["Plagiat","Citation"]},
+  {term:"Recherche quantitative", def:"Approche visant à mesurer, tester une hypothèse, estimer ou comparer à partir de données numériques et de méthodes statistiques.", ar:"بحث كمي: مقاربة تهدف إلى القياس واختبار الفرضيات والتقدير والمقارنة بالبيانات الرقمية.", page:39, rel:["Recherche qualitative","Statistiques"]},
+  {term:"Recherche qualitative", def:"Approche visant à comprendre, interpréter ou explorer un phénomène à partir de mots, discours, observations ou documents.", ar:"بحث نوعي: مقاربة تهدف إلى الفهم والتأويل والاستكشاف انطلاقاً من الكلمات والخطابات والملاحظات.", page:39, rel:["Recherche quantitative","Codage thématique"]},
+  {term:"Codage thématique", def:"Méthode d'analyse qualitative consistant à classer le contenu en thèmes et catégories.", ar:"الترميز الموضوعي: طريقة تحليل نوعي لتصنيف المحتوى إلى موضوعات وفئات.", page:39, rel:["Recherche qualitative"]},
+  {term:"État de l'art", def:"Synthèse structurée des approches existantes conduisant progressivement vers la problématique du PFE.", ar:"مراجعة الأدبيات: تركيب منظم للمقاربات الموجودة يقود تدريجياً إلى إشكالية المشروع.", page:62, rel:["Mémoire de PFE","Lacune de recherche"]},
+  {term:"Mémoire de PFE", def:"Rapport de projet de fin d'études présentant de manière structurée le problème étudié, les choix méthodologiques, les résultats et la contribution personnelle de l'étudiant.", ar:"مذكرة مشروع نهاية الدراسة: تقرير منظم يعرض المشكلة والخيارات المنهجية والنتائج والمساهمة الشخصية.", page:56, rel:["État de l'art","Conclusion"]},
+  {term:"Perspectives", def:"Pistes d'amélioration ou d'étude complémentaire directement liées aux résultats obtenus.", ar:"آفاق: مسارات تحسين أو دراسة تكميلية مرتبطة مباشرة بالنتائج.", page:66, rel:["Conclusion","Mémoire de PFE"]}
+];
+
+/* ---------- FLASHCARDS ---------- */
+const FLASHCARDS = [
+  {front:"Qu'est-ce que la littérature scientifique ?", back:"L'ensemble des publications qui communiquent des résultats de recherche et des connaissances validées (page 4).", ch:"c1"},
+  {front:"Citez 3 types de documents scientifiques.", back:"Article original, revue de synthèse, actes de conférence, thèse/mémoire, livre, prépublication (page 6).", ch:"c1"},
+  {front:"Que permet de repérer la recherche documentaire ?", back:"Les lacunes de recherche : limites, questions ouvertes, hypothèses non vérifiées (page 5).", ch:"c1"},
+  {front:"Qui développe Scopus ?", back:"Elsevier (page 14).", ch:"c2"},
+  {front:"Qui développe Web of Science ?", back:"Clarivate (page 15).", ch:"c2"},
+  {front:"Quelle est la fenêtre de citation du JIF ?", back:"2 ans (page 20).", ch:"c3"},
+  {front:"Quelle est la fenêtre de citation de CiteScore ?", back:"4 ans (page 24).", ch:"c3"},
+  {front:"Que signifie Q1 ?", back:"Le premier quart, soit les 25% les mieux classées de la catégorie (page 27).", ch:"c3"},
+  {front:"Quelle est la structure classique d'un article ?", back:"Titre, Résumé et mots-clés, Introduction, Matériels et méthodes, Résultats, Discussion, Conclusion, Références (page 35).", ch:"c4"},
+  {front:"Quels sont les éléments d'un bon résumé ?", back:"Contexte, justification, objectif, méthode, résultats clés, conclusion (page 38).", ch:"c4"},
+  {front:"Quelle est la différence entre recherche quantitative et qualitative ?", back:"Quantitative : mesurer, tester, estimer, comparer (nombres, statistiques). Qualitative : comprendre, interpréter, explorer (mots, discours, observations) (page 39).", ch:"c5"},
+  {front:"Que signifie DOI ?", back:"Digital Object Identifier : identifiant unique et persistant (page 42).", ch:"c6"},
+  {front:"Quelle équation résume l'intégrité scientifique ?", back:"Originalité + Attribution correcte + Traçabilité = Intégrité scientifique (page 47).", ch:"c6"},
+  {front:"Quelles sont les modalités de peer review ?", back:"Simple aveugle, double aveugle ou ouverte (page 52).", ch:"c7"},
+  {front:"Qu'est-ce qu'un mémoire de PFE ?", back:"Une reconstruction scientifique organisée autour d'une problématique, d'une méthode et de résultats (page 56).", ch:"c8"},
+  {front:"Que doit contenir l'introduction d'un mémoire ?", back:"Contexte, problématique, état des connaissances, besoin/lacune, objectifs, démarche, organisation (page 59).", ch:"c8"},
+  {front:"Que doit faire le chapitre résultats et discussion ?", back:"Présenter les résultats et expliquer ce qu'ils signifient, en les interprétant et en les comparant à la littérature (page 64).", ch:"c8"}
+];
+
+/* ---------- JEU D'ASSOCIATION ---------- */
+const MATCH_PAIRS = [
+  {term:"JIF", def:"Fenêtre de 2 ans, Clarivate/JCR"},
+  {term:"CiteScore", def:"Fenêtre de 4 ans, Elsevier/Scopus"},
+  {term:"Q1", def:"Top 25% de la catégorie"},
+  {term:"DOI", def:"Identifiant unique et persistant"},
+  {term:"Zotero", def:"Gestionnaire de références"},
+  {term:"Peer review", def:"Évaluation par les pairs"},
+  {term:"LaTeX", def:"Sépare contenu et mise en forme"},
+  {term:"Scopus", def:"Base bibliographique d'Elsevier"},
+  {term:"Web of Science", def:"Plateforme de Clarivate"},
+  {term:"Plagiat", def:"Utilisation sans attribution appropriée"}
+];
+
+/* ---------- JEU D'ORDRE ---------- */
+const ORDER_GAME = {
+  title:"Processus de publication",
+  items:["Recherche","Préparation du manuscrit","Choix de la revue","Soumission","Évaluation par les pairs","Révision","Publication"],
+  page:32
+};
+
+/* =========================================================================
+   TRADUCTIONS (interface)
+   ========================================================================= */
+const I18N = {
+  fr: {
+    tabs: {home:"Accueil", lessons:"Leçons", quiz:"QCM", exams:"Examens", flashcards:"Flashcards", games:"Jeux", glossary:"Glossaire", errors:"Mes erreurs", stats:"Progression", express:"Révision express"},
+    heroTitle:"Master Research Lab",
+    heroSub:"Comprendre, mémoriser et réussir la méthodologie de recherche scientifique",
+    heroCta:"Commencer la révision",
+    heroCta2:"Voir les QCM",
+    statChapters:"Chapitres",
+    statQuestions:"Questions QCM",
+    statCards:"Flashcards",
+    statGlossary:"Termes du glossaire",
+    startHere:"Commencer ici",
+    dashboard:"Tableau de bord",
+    courseProgram:"Programme complet",
+    chaptersList:"Chapitres",
+    lessonsTitle:"Leçons et résumés",
+    quizTitle:"QCM",
+    quizByPage:"Par page",
+    quizByChapter:"Par chapitre",
+    quizAll:"Banque complète",
+    examsTitle:"Examens blancs",
+    examEasy:"Examen facile",
+    examMedium:"Examen intermédiaire",
+    examHard:"Examen difficile (Master)",
+    examRandom:"Examen aléatoire",
+    examNote:"Ces questions sont des propositions de révision fondées sur le cours et non des prédictions certaines des questions du professeur.",
+    flashcardsTitle:"Flashcards",
+    gamesTitle:"Jeux éducatifs",
+    glossaryTitle:"Glossaire scientifique",
+    errorsTitle:"Révision des erreurs",
+    statsTitle:"Statistiques et progression",
+    expressTitle:"Révision express",
+    searchPlaceholder:"Rechercher une notion, une définition, une question…",
+    noResults:"Aucun résultat.",
+    correct:"Bonne réponse !",
+    wrong:"Réponse incorrecte.",
+    explanation:"Explication",
+    next:"Suivante",
+    prev:"Précédente",
+    validate:"Valider",
+    finish:"Terminer",
+    restart:"Recommencer",
+    score:"Score",
+    question:"Question",
+    of:"sur",
+    sourcePage:"Page source",
+    difficulty:"Difficulté",
+    easy:"Facile", medium:"Moyen", hard:"Difficile",
+    all:"Tous",
+    chapter:"Chapitre",
+    allChapters:"Tous les chapitres",
+    allPages:"Toutes les pages",
+    filter:"Filtrer",
+    shuffle:"Mélanger",
+    showAnswer:"Afficher la réponse",
+    flip:"Retourner la carte",
+    nextCard:"Carte suivante",
+    prevCard:"Carte précédente",
+    matched:"Associé",
+    selectTerm:"Sélectionnez un terme, puis sa définition.",
+    orderInstruction:"Remettez les étapes dans le bon ordre avec les flèches.",
+    verifyOrder:"Vérifier l'ordre",
+    orderOk:"Ordre correct !",
+    orderBad:"Ordre incorrect, réessayez.",
+    noErrors:"Aucune erreur enregistrée pour le moment. Faites des QCM pour commencer.",
+    reviewErrors:"Réviser mes erreurs",
+    clearErrors:"Effacer mes erreurs",
+    saved:"Sauvegardé localement",
+    theme:"Thème",
+    reset:"Réinitialiser",
+    resetConfirm:"Réinitialiser toute la progression ?",
+    correctAnswers:"Bonnes réponses",
+    answered:"Questions répondues",
+    accuracy:"Taux de réussite",
+    streak:"Série actuelle",
+    lastResults:"Derniers résultats",
+    favorite:"Favori",
+    addFavorite:"Ajouter aux favoris",
+    removeFavorite:"Retirer des favoris",
+    favorites:"Favoris",
+    noFavorites:"Aucun favori.",
+    exportResults:"Exporter les résultats (CSV)",
+    exportJson:"Exporter (JSON)",
+    timeLeft:"Temps restant",
+    timer:"Chronomètre",
+    startTimer:"Démarrer le chrono",
+    stopTimer:"Arrêter le chrono",
+    correctShort:"Correct",
+    wrongShort:"Incorrect",
+    yourAnswer:"Votre réponse",
+    rightAnswer:"Bonne réponse",
+    whyWrong:"Pourquoi les autres sont fausses",
+    keyPoints:"Points clés",
+    definitions:"Définitions à mémoriser",
+    keywords:"Mots-clés",
+    steps:"Étapes et procédures",
+    mistakes:"Erreurs à éviter",
+    example:"Exemple",
+    summary:"Résumé",
+    essential:"Idée essentielle",
+    quickQuiz:"Questions rapides",
+    lastMinute:"Mini-fiche de dernière minute",
+    mustRemember:"Ce qu'il faut absolument retenir",
+    allChaptersLabel:"Tous les chapitres",
+    chapterPrefix:"Chapitre",
+    pagePrefix:"Page",
+    questionsCount:"questions",
+    cardsCount:"cartes",
+    termsCount:"termes",
+    chaptersCount:"chapitres",
+    backToLessons:"Retour aux leçons",
+    backToQuiz:"Retour aux QCM",
+    backToGames:"Retour aux jeux",
+    seeCorrection:"Voir la correction",
+    correctAnswerIs:"La bonne réponse est",
+    findIt:"Trouver la notion",
+    matchGame:"Jeu d'association",
+    matchGameDesc:"Associez chaque terme à sa définition.",
+    orderGame:"Remettre dans l'ordre",
+    orderGameDesc:"Classez les étapes du processus de publication.",
+    trueFalse:"Vrai ou faux",
+    trueFalseDesc:"Défi : 10 affirmations à juger.",
+    timedQuiz:"Quiz chronométré",
+    timedQuizDesc:"10 questions en 90 secondes.",
+    finalChallenge:"Challenge final Master",
+    finalChallengeDesc:"20 questions difficiles couvrant tout le cours.",
+    start:"Démarrer",
+    play:"Jouer",
+    yes:"Vrai", no:"Faux",
+    timeUp:"Temps écoulé !",
+    challengeDone:"Défi terminé !",
+    page:"Page",
+    source:"Source",
+    viewLesson:"Voir la leçon",
+    viewChapter:"Voir le chapitre",
+    quizChapter:"QCM du chapitre",
+    quizPage:"QCM de la page",
+    pageNotFound:"Page non trouvée.",
+    resultsSaved:"Résultats sauvegardés.",
+    confirmClear:"Effacer l'historique des erreurs ?",
+    noQuestions:"Aucune question pour ce filtre.",
+    loginNotNeeded:"Aucun compte requis : la progression est sauvegardée dans votre navigateur.",
+    disclaimer:"Contenu basé sur le PDF « Méthodologie de recherche scientifique » (Aissam Hadri, FSAO – Ouarzazate, 2026). Les pages sont référencées à titre indicatif.",
+    progSaved:"Progression sauvegardée",
+    clearAll:"Tout effacer",
+    clearAllConfirm:"Effacer toute la progression (scores, erreurs, favoris) ?",
+    cleared:"Progression effacée.",
+    statsEmpty:"Faites quelques QCM pour voir vos statistiques.",
+    exprNote:"Révision express : l'essentiel du cours en quelques minutes, fidèle au PDF.",
+    exprTip:"Astuce : lisez d'abord les résumés de chaque chapitre, puis testez-vous avec les QCM.",
+    exprLastMin:"Dernière minute",
+    expand:"Développer",
+    collapse:"Réduire",
+    seeAll:"Voir tout",
+    seeLess:"Voir moins"
+  },
+  ar: {
+    tabs: {home:"الرئيسية", lessons:"الدروس", quiz:"اختبارات", exams:"امتحانات", flashcards:"بطاقات", games:"ألعاب", glossary:"معجم", errors:"أخطائي", stats:"تقدمي", express:"مراجعة سريعة"},
+    heroTitle:"مختبر البحث للماستر",
+    heroSub:"افهم، احفظ، وانجح في منهجية البحث العلمي",
+    heroCta:"ابدأ المراجعة",
+    heroCta2:"عرض الاختبارات",
+    statChapters:"فصول",
+    statQuestions:"أسئلة اختبار",
+    statCards:"بطاقات",
+    statGlossary:"مصطلحات المعجم",
+    startHere:"ابدأ من هنا",
+    dashboard:"لوحة التحكم",
+    courseProgram:"البرنامج الكامل",
+    chaptersList:"الفصول",
+    lessonsTitle:"الدروس والملخصات",
+    quizTitle:"اختبارات",
+    quizByPage:"حسب الصفحة",
+    quizByChapter:"حسب الفصل",
+    quizAll:"البنك الكامل",
+    examsTitle:"امتحانات تجريبية",
+    examEasy:"امتحان سهل",
+    examMedium:"امتحان متوسط",
+    examHard:"امتحان صعب (ماستر)",
+    examRandom:"امتحان عشوائي",
+    examNote:"هذه الأسئلة مقترحات مراجعة مبنية على الدرس وليست تنبؤات مؤكدة لأسئلة الأستاذ.",
+    flashcardsTitle:"بطاقات المراجعة",
+    gamesTitle:"ألعاب تعليمية",
+    glossaryTitle:"المعجم العلمي",
+    errorsTitle:"مراجعة الأخطاء",
+    statsTitle:"الإحصائيات والتقدم",
+    expressTitle:"المراجعة السريعة",
+    searchPlaceholder:"ابحث عن مفهوم، تعريف، سؤال…",
+    noResults:"لا نتائج.",
+    correct:"إجابة صحيحة!",
+    wrong:"إجابة خاطئة.",
+    explanation:"التفسير",
+    next:"التالي",
+    prev:"السابق",
+    validate:"تحقق",
+    finish:"إنهاء",
+    restart:"إعادة",
+    score:"النتيجة",
+    question:"سؤال",
+    of:"من",
+    sourcePage:"الصفحة المصدر",
+    difficulty:"الصعوبة",
+    easy:"سهل", medium:"متوسط", hard:"صعب",
+    all:"الكل",
+    chapter:"فصل",
+    allChapters:"جميع الفصول",
+    allPages:"جميع الصفحات",
+    filter:"تصفية",
+    shuffle:"خلط",
+    showAnswer:"إظهار الإجابة",
+    flip:"اقلب البطاقة",
+    nextCard:"البطاقة التالية",
+    prevCard:"البطاقة السابقة",
+    matched:"تم الربط",
+    selectTerm:"اختر مصطلحاً ثم تعريفه.",
+    orderInstruction:"أعد ترتيب الخطوات بالأسهم.",
+    verifyOrder:"تحقق من الترتيب",
+    orderOk:"الترتيب صحيح!",
+    orderBad:"الترتيب خاطئ، أعد المحاولة.",
+    noErrors:"لا أخطاء مسجلة حالياً. ابدأ بحل الاختبارات.",
+    reviewErrors:"راجع أخطائي",
+    clearErrors:"مسح أخطائي",
+    saved:"محفوظ محلياً",
+    theme:"المظهر",
+    reset:"إعادة تعيين",
+    resetConfirm:"إعادة تعيين كل التقدم؟",
+    correctAnswers:"إجابات صحيحة",
+    answered:"أسئلة مجابة",
+    accuracy:"نسبة النجاح",
+    streak:"السلسلة الحالية",
+    lastResults:"آخر النتائج",
+    favorite:"مفضل",
+    addFavorite:"أضف إلى المفضلة",
+    removeFavorite:"إزالة من المفضلة",
+    favorites:"المفضلة",
+    noFavorites:"لا مفضلات.",
+    exportResults:"تصدير النتائج (CSV)",
+    exportJson:"تصدير (JSON)",
+    timeLeft:"الوقت المتبقي",
+    timer:"مؤقت",
+    startTimer:"بدء المؤقت",
+    stopTimer:"إيقاف المؤقت",
+    correctShort:"صحيح",
+    wrongShort:"خطأ",
+    yourAnswer:"إجابتك",
+    rightAnswer:"الإجابة الصحيحة",
+    whyWrong:"لماذا الأخرى خاطئة",
+    keyPoints:"النقاط الأساسية",
+    definitions:"تعريفات للحفظ",
+    keywords:"كلمات مفتاحية",
+    steps:"خطوات وإجراءات",
+    mistakes:"أخطاء يجب تجنبها",
+    example:"مثال",
+    summary:"ملخص",
+    essential:"الفكرة الأساسية",
+    quickQuiz:"أسئلة سريعة",
+    lastMinute:"بطاقة اللحظة الأخيرة",
+    mustRemember:"ما يجب حفظه قطعاً",
+    allChaptersLabel:"جميع الفصول",
+    chapterPrefix:"الفصل",
+    pagePrefix:"صفحة",
+    questionsCount:"أسئلة",
+    cardsCount:"بطاقات",
+    termsCount:"مصطلحات",
+    chaptersCount:"فصول",
+    backToLessons:"العودة للدروس",
+    backToQuiz:"العودة للاختبارات",
+    backToGames:"العودة للألعاب",
+    seeCorrection:"عرض التصحيح",
+    correctAnswerIs:"الإجابة الصحيحة هي",
+    findIt:"ابحث عن المفهوم",
+    matchGame:"لعبة الربط",
+    matchGameDesc:"اربط كل مصطلح بتعريفه.",
+    orderGame:"إعادة الترتيب",
+    orderGameDesc:"رتّب خطوات عملية النشر.",
+    trueFalse:"صحيح أم خطأ",
+    trueFalseDesc:"تحدٍّ: 10 عبارات للحكم.",
+    timedQuiz:"اختبار مؤقت",
+    timedQuizDesc:"10 أسئلة في 90 ثانية.",
+    finalChallenge:"التحدي النهائي للماستر",
+    finalChallengeDesc:"20 سؤالاً صعباً تغطي كل الدرس.",
+    start:"ابدأ",
+    play:"العب",
+    yes:"صحيح", no:"خطأ",
+    timeUp:"انتهى الوقت!",
+    challengeDone:"انتهى التحدي!",
+    page:"صفحة",
+    source:"المصدر",
+    viewLesson:"عرض الدرس",
+    viewChapter:"عرض الفصل",
+    quizChapter:"اختبار الفصل",
+    quizPage:"اختبار الصفحة",
+    pageNotFound:"الصفحة غير موجودة.",
+    resultsSaved:"تم حفظ النتائج.",
+    confirmClear:"مسح سجل الأخطاء؟",
+    noQuestions:"لا أسئلة لهذا التصفية.",
+    loginNotNeeded:"لا حاجة لحساب: التقدم محفوظ في متصفحك.",
+    disclaimer:"المحتوى مبني على ملف «منهجية البحث العلمي» (عصام حدري، FSAO – ورزازات، 2026). أرقام الصفحات إرشادية.",
+    progSaved:"تم حفظ التقدم",
+    clearAll:"مسح الكل",
+    clearAllConfirm:"مسح كل التقدم (النتائج، الأخطاء، المفضلة)؟",
+    cleared:"تم مسح التقدم.",
+    statsEmpty:"حل بعض الاختبارات لعرض إحصائياتك.",
+    exprNote:"مراجعة سريعة: أساسيات الدرس في دقائق، وفقاً للملف.",
+    exprTip:"نصيحة: اقرأ ملخصات الفصول أولاً، ثم اختبر نفسك.",
+    exprLastMin:"اللحظة الأخيرة",
+    expand:"توسيع",
+    collapse:"طي",
+    seeAll:"عرض الكل",
+    seeLess:"عرض أقل"
+  },
+  dr: {
+    tabs: {home:"الرئيسية", lessons:"الدروس", quiz:"كويزات", exams:"امتحانات", flashcards:"كارطات", games:"ألعاب", glossary:"قاموس", errors:"أخطائي", stats:"التقدم", express:"مراجعة سريعة"},
+    heroTitle:"مختبر البحث للماستر",
+    heroSub:"افهم، حفظ، ونجح فـ منهجية البحث العلمي",
+    heroCta:"بدا المراجعة",
+    heroCta2:"شوف الكويزات",
+    statChapters:"فصول",
+    statQuestions:"أسئلة",
+    statCards:"كارطات",
+    statGlossary:"مصطلحات",
+    startHere:"بدا من هنا",
+    dashboard:"لوحة التحكم",
+    courseProgram:"البرنامج كامل",
+    chaptersList:"الفصول",
+    lessonsTitle:"الدروس والملخصات",
+    quizTitle:"كويزات",
+    quizByPage:"حسب الصفحة",
+    quizByChapter:"حسب الفصل",
+    quizAll:"البنك كامل",
+    examsTitle:"امتحانات تجريبية",
+    examEasy:"امتحان ساهل",
+    examMedium:"امتحان متوسط",
+    examHard:"امتحان صعيب (ماستر)",
+    examRandom:"امتحان عشوائي",
+    examNote:"هاد الأسئلة مقترحات للمراجعة مبنية على الدرس ماشي تنبؤات مؤكدة لأسئلة الأستاذ.",
+    flashcardsTitle:"كارطات المراجعة",
+    gamesTitle:"ألعاب تعليمية",
+    glossaryTitle:"القاموس العلمي",
+    errorsTitle:"مراجعة الأخطاء",
+    statsTitle:"الإحصائيات والتقدم",
+    expressTitle:"المراجعة السريعة",
+    searchPlaceholder:"قلب على مفهوم، تعريف، سؤال…",
+    noResults:"ما كاين والو.",
+    correct:"جواب صحيح!",
+    wrong:"جواب خاطئ.",
+    explanation:"التفسير",
+    next:"التالي",
+    prev:"السابق",
+    validate:"تحقق",
+    finish:"سالي",
+    restart:"عاود",
+    score:"النتيجة",
+    question:"سؤال",
+    of:"من",
+    sourcePage:"الصفحة",
+    difficulty:"الصعوبة",
+    easy:"ساهل", medium:"متوسط", hard:"صعيب",
+    all:"الكل",
+    chapter:"فصل",
+    allChapters:"جميع الفصول",
+    allPages:"جميع الصفحات",
+    filter:"فلتر",
+    shuffle:"خلط",
+    showAnswer:"بين الجواب",
+    flip:"قلب الكارطة",
+    nextCard:"الكارطة الجاية",
+    prevCard:"الكارطة اللي قبل",
+    matched:"تربط",
+    selectTerm:"ختار مصطلح ومن بعد التعريف ديالو.",
+    orderInstruction:"رتب الخطوات بالأسهم.",
+    verifyOrder:"تحقق من الترتيب",
+    orderOk:"الترتيب صحيح!",
+    orderBad:"الترتيب خاطئ، عاود.",
+    noErrors:"ما كاين حتى خطأ دابا. بدا حل الكويزات.",
+    reviewErrors:"راجع أخطائي",
+    clearErrors:"مسح الأخطاء",
+    saved:"محفوظ محلياً",
+    theme:"الثيم",
+    reset:"إعادة تعيين",
+    resetConfirm:"تعاود تصفر كلشي؟",
+    correctAnswers:"أجوبة صحيحة",
+    answered:"أسئلة مجاوبة",
+    accuracy:"نسبة النجاح",
+    streak:"السلسلة",
+    lastResults:"آخر النتائج",
+    favorite:"مفضل",
+    addFavorite:"زيد للمفضلة",
+    removeFavorite:"حيد من المفضلة",
+    favorites:"المفضلة",
+    noFavorites:"ما كاين حتى مفضل.",
+    exportResults:"صدّر النتائج (CSV)",
+    exportJson:"صدّر (JSON)",
+    timeLeft:"الوقت الباقي",
+    timer:"مؤقت",
+    startTimer:"بدا المؤقت",
+    stopTimer:"وقف المؤقت",
+    correctShort:"صحيح",
+    wrongShort:"خطأ",
+    yourAnswer:"جوابك",
+    rightAnswer:"الجواب الصحيح",
+    whyWrong:"علاش الآخرين خاطئين",
+    keyPoints:"النقاط الأساسية",
+    definitions:"تعريفات للحفظ",
+    keywords:"كلمات مفتاحية",
+    steps:"خطوات",
+    mistakes:"أخطاء تجنب",
+    example:"مثال",
+    summary:"ملخص",
+    essential:"الفكرة الأساسية",
+    quickQuiz:"أسئلة سريعة",
+    lastMinute:"كارطة اللحظة الأخيرة",
+    mustRemember:"اللي خاصك تحفظ",
+    allChaptersLabel:"جميع الفصول",
+    chapterPrefix:"الفصل",
+    pagePrefix:"صفحة",
+    questionsCount:"أسئلة",
+    cardsCount:"كارطات",
+    termsCount:"مصطلحات",
+    chaptersCount:"فصول",
+    backToLessons:"رجع للدروس",
+    backToQuiz:"رجع للكويزات",
+    backToGames:"رجع للألعاب",
+    seeCorrection:"شوف التصحيح",
+    correctAnswerIs:"الجواب الصحيح هو",
+    findIt:"قلب على المفهوم",
+    matchGame:"لعبة الربط",
+    matchGameDesc:"ربط كل مصطلح مع التعريف ديالو.",
+    orderGame:"رتب",
+    orderGameDesc:"رتب خطوات عملية النشر.",
+    trueFalse:"صحيح ولا خطأ",
+    trueFalseDesc:"تحدي: 10 عبارات تحكم عليهم.",
+    timedQuiz:"كويز بالوقت",
+    timedQuizDesc:"10 أسئلة ف 90 ثانية.",
+    finalChallenge:"التحدي النهائي ماستر",
+    finalChallengeDesc:"20 سؤال صعيب على كل الدرس.",
+    start:"بدا",
+    play:"لعب",
+    yes:"صحيح", no:"خطأ",
+    timeUp:"سالا الوقت!",
+    challengeDone:"سالا التحدي!",
+    page:"صفحة",
+    source:"المصدر",
+    viewLesson:"شوف الدرس",
+    viewChapter:"شوف الفصل",
+    quizChapter:"كويز الفصل",
+    quizPage:"كويز الصفحة",
+    pageNotFound:"الصفحة ما كايناش.",
+    resultsSaved:"تسجلت النتائج.",
+    confirmClear:"تمسح سجل الأخطاء؟",
+    noQuestions:"ما كاين حتى سؤال لهاد الفلتر.",
+    loginNotNeeded:"ما خاصكش حساب: التقدم محفوظ ف المتصفح ديالك.",
+    disclaimer:"المحتوى مبني على ملف «منهجية البحث العلمي» (عصام حدري، FSAO – ورزازات، 2026). أرقام الصفحات إرشادية.",
+    progSaved:"تسجل التقدم",
+    clearAll:"مسح كلشي",
+    clearAllConfirm:"تمسح كل التقدم (النتائج، الأخطاء، المفضلة)؟",
+    cleared:"تمسح التقدم.",
+    statsEmpty:"حل شوية كويزات باش تشوف الإحصائيات.",
+    exprNote:"مراجعة سريعة: أساسيات الدرس ف دقائق، وفقاً للملف.",
+    exprTip:"نصيحة: قرا ملخصات الفصول أولاً، من بعد اختبر راسك.",
+    exprLastMin:"اللحظة الأخيرة",
+    expand:"توسيع",
+    collapse:"طي",
+    seeAll:"شوف الكل",
+    seeLess:"شوف أقل"
+  }
+};
+
+/* =========================================================================
+   ÉTAT & STOCKAGE
+   ========================================================================= */
+const STORE_KEY = "mrl_state_v1";
+const defaultState = () => ({
+  lang: "fr",
+  theme: "light",
+  history: [],          // {qid, correct, chosen, date}
+  errors: [],           // qid uniques
+  favorites: [],        // qid
+  srs: {},              // qid -> {level, nextReview}
+  lastResults: [],      // {label, score, total, date}
+  streak: 0,
+  lastAnswerDate: null
+});
+let state = loadState();
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    if(!raw) return defaultState();
+    const s = JSON.parse(raw);
+    return Object.assign(defaultState(), s);
+  }catch(e){ return defaultState(); }
+}
+function saveState(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){}
+}
+function t(key){
+  const lang = state.lang || "fr";
+  return (I18N[lang] && I18N[lang][key]) || I18N.fr[key] || key;
+}
+
+/* =========================================================================
+   UTILITAIRES
+   ========================================================================= */
+const $ = (sel, ctx=document) => ctx.querySelector(sel);
+const $$ = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
+function esc(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+function qById(id){ return QUESTIONS.find(q=>q.id===id); }
+function chById(id){ return CHAPTERS.find(c=>c.id===id); }
+function qsForChapter(chId){ return QUESTIONS.filter(q=>q.ch===chId); }
+function qsForPage(page){ return QUESTIONS.filter(q=>q.page===page); }
+function todayStr(){ return new Date().toISOString().slice(0,10); }
+
+/* Toast */
+let toastTimer;
+function toast(msg, type="ok"){
+  const el = $("#toast");
+  el.textContent = msg;
+  el.className = "toast show " + (type==="err"?"err":type==="ok"?"ok":"");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>{ el.className = "toast"; }, 2600);
+}
+
+/* Thème */
+function applyTheme(){
+  document.documentElement.setAttribute("data-theme", state.theme);
+  $("#themeBtn").textContent = state.theme === "dark" ? "☀️" : "🌙";
+}
+/* Langue & direction */
+function applyLang(){
+  const lang = state.lang || "fr";
+  document.documentElement.lang = (lang === "ar" || lang === "dr") ? "ar" : "fr";
+  document.documentElement.dir = (lang === "ar" || lang === "dr") ? "rtl" : "ltr";
+  $("#langSelect").value = lang;
+  // Ré-afficher la vue courante
+  renderTabs();
+  route(location.hash || "#home");
+}
+
+/* =========================================================================
+   NAVIGATION
+   ========================================================================= */
+const VIEWS = [
+  {id:"home", icon:"🏠"},
+  {id:"lessons", icon:"📘"},
+  {id:"quiz", icon:"❓"},
+  {id:"exams", icon:"📝"},
+  {id:"flashcards", icon:"🗂️"},
+  {id:"games", icon:"🎮"},
+  {id:"glossary", icon:"📖"},
+  {id:"errors", icon:"🔁"},
+  {id:"stats", icon:"📊"},
+  {id:"express", icon:"⚡"}
+];
+
+function renderTabs(){
+  const nav = $("#tabs");
+  const current = (location.hash || "#home").replace("#","").split("?")[0].split("/")[0];
+  nav.innerHTML = VIEWS.map(v => {
+    const label = t("tabs")[v.id] || v.id;
+    const active = current === v.id ? " active" : "";
+    return `<button class="tab${active}" data-nav="${v.id}">${v.icon} ${esc(label)}</button>`;
+  }).join("");
+  $$("[data-nav]", nav).forEach(b => b.addEventListener("click", ()=>{ location.hash = "#"+b.dataset.nav; }));
+}
+
+function route(hash){
+  const app = $("#app");
+  const raw = (hash||"#home").replace("#","");
+  const parts = raw.split("/");
+  const view = parts[0] || "home";
+  const param = parts[1] || null;
+  // Sécurité : vue inconnue -> home
+  const known = VIEWS.some(v=>v.id===view);
+  if(!known){ location.hash = "#home"; return; }
+  window.scrollTo({top:0,behavior:"instant"});
+  renderTabs();
+  switch(view){
+    case "home": renderHome(app); break;
+    case "lessons": renderLessons(app, param); break;
+    case "quiz": renderQuizHub(app, param); break;
+    case "exams": renderExams(app); break;
+    case "flashcards": renderFlashcards(app); break;
+    case "games": renderGames(app, param); break;
+    case "glossary": renderGlossary(app); break;
+    case "errors": renderErrors(app); break;
+    case "stats": renderStats(app); break;
+    case "express": renderExpress(app); break;
+  }
+}
+
+/* =========================================================================
+   VUE ACCUEIL
+   ========================================================================= */
+function renderHome(app){
+  const totalQ = QUESTIONS.length;
+  const totalCh = CHAPTERS.length;
+  const totalCards = FLASHCARDS.length;
+  const totalGloss = GLOSSARY.length;
+
+  app.innerHTML = `
+  <section class="hero">
+    <h1>${esc(t("heroTitle"))}</h1>
+    <p>${esc(t("heroSub"))}</p>
+    <div class="row">
+      <button class="btn" id="heroStart">${esc(t("heroCta"))}</button>
+      <button class="btn secondary" id="heroQuiz">${esc(t("heroCta2"))}</button>
+    </div>
+  </section>
+
+  <section class="section grid grid-4">
+    <div class="card stat-card"><div class="num">${totalCh}</div><div class="lbl">${esc(t("statChapters"))}</div></div>
+    <div class="card stat-card"><div class="num">${totalQ}</div><div class="lbl">${esc(t("statQuestions"))}</div></div>
+    <div class="card stat-card"><div class="num">${totalCards}</div><div class="lbl">${esc(t("statCards"))}</div></div>
+    <div class="card stat-card"><div class="num">${totalGloss}</div><div class="lbl">${esc(t("statGlossary"))}</div></div>
+  </section>
+
+  <section class="section card">
+    <div class="spread">
+      <div>
+        <h2>${esc(t("courseProgram"))}</h2>
+        <p class="sub">${esc(COURSE.title)} — ${esc(COURSE.author)}</p>
+      </div>
+      <span class="badge">${esc(COURSE.year)}</span>
+    </div>
+    <div class="grid grid-2" style="margin-top:14px">
+      ${CHAPTERS.map(c=>`
+        <div class="card hoverable" style="cursor:pointer" data-goto-lesson="${c.id}">
+          <span class="badge">${esc(t("chapterPrefix"))} ${c.num}</span>
+          <h3 style="margin-top:8px">${esc(c.title)}</h3>
+          <p class="sub" style="font-size:.82rem">${esc(t("pagePrefix"))}s ${esc(c.pages)} · ${qsForChapter(c.id).length} ${esc(t("questionsCount"))}</p>
+        </div>
+      `).join("")}
+    </div>
+  </section>
+
+  <section class="section card">
+    <h2>${esc(t("startHere"))}</h2>
+    <div class="grid grid-3" style="margin-top:12px">
+      <button class="card hoverable" style="text-align:left" data-goto="lessons">
+        <div style="font-size:1.5rem">📘</div>
+        <h3>${esc(t("lessonsTitle"))}</h3>
+        <p class="sub" style="font-size:.84rem">${esc(t("summary"))}, ${esc(t("definitions"))}, ${esc(t("keyPoints"))}</p>
+      </button>
+      <button class="card hoverable" style="text-align:left" data-goto="quiz">
+        <div style="font-size:1.5rem">❓</div>
+        <h3>${esc(t("quizTitle"))}</h3>
+        <p class="sub" style="font-size:.84rem">${QUESTIONS.length} ${esc(t("questionsCount"))} · ${esc(t("quizByChapter"))}, ${esc(t("quizByPage"))}</p>
+      </button>
+      <button class="card hoverable" style="text-align:left" data-goto="flashcards">
+        <div style="font-size:1.5rem">🗂️</div>
+        <h3>${esc(t("flashcardsTitle"))}</h3>
+        <p class="sub" style="font-size:.84rem">${FLASHCARDS.length} ${esc(t("cardsCount"))}</p>
+      </button>
+    </div>
+  </section>
+
+  <p class="sub" style="margin-top:18px;font-size:.78rem">${esc(t("disclaimer"))}</p>
+  <p class="sub" style="font-size:.78rem">${esc(t("loginNotNeeded"))}</p>
+  `;
+
+  $("#heroStart").addEventListener("click", ()=> location.hash = "#lessons");
+  $("#heroQuiz").addEventListener("click", ()=> location.hash = "#quiz");
+  $$("[data-goto]", app).forEach(b => b.addEventListener("click", ()=> location.hash = "#"+b.dataset.goto));
+  $$("[data-goto-lesson]", app).forEach(b => b.addEventListener("click", ()=> location.hash = "#lessons/"+b.dataset.gotoLesson));
+}
+
+/* =========================================================================
+   VUE LEÇONS
+   ========================================================================= */
+function renderLessons(app, chapterId){
+  if(chapterId && chById(chapterId)){
+    renderLessonDetail(app, chById(chapterId));
+    return;
+  }
+  app.innerHTML = `
+  <section class="section">
+    <h1>${esc(t("lessonsTitle"))}</h1>
+    <p class="sub">${esc(t("summary"))}, ${esc(t("definitions"))}, ${esc(t("keyPoints"))}, ${esc(t("mistakes"))}.</p>
+    <div class="grid grid-2" style="margin-top:16px">
+      ${CHAPTERS.map(c=>`
+        <div class="card hoverable">
+          <div class="spread">
+            <span class="badge">${esc(t("chapterPrefix"))} ${c.num}</span>
+            <span class="badge gray">${esc(t("pagePrefix"))}s ${esc(c.pages)}</span>
+          </div>
+          <h2 style="margin-top:10px">${esc(c.title)}</h2>
+          <p class="sub" style="font-size:.88rem">${esc(c.summary.slice(0,160))}…</p>
+          <div class="row" style="margin-top:12px">
+            <button class="btn small" data-lesson="${c.id}">${esc(t("viewLesson"))}</button>
+            <button class="btn small secondary" data-chquiz="${c.id}">${esc(t("quizChapter"))}</button>
+          </div>
+        </div>
+      `).join("")}
+    </div>
+  </section>`;
+  $$("[data-lesson]", app).forEach(b=>b.addEventListener("click",()=>location.hash="#lessons/"+b.dataset.lesson));
+  $$("[data-chquiz]", app).forEach(b=>b.addEventListener("click",()=>location.hash="#quiz/"+b.dataset.chquiz));
+}
+
+function renderLessonDetail(app, c){
+  const chQs = qsForChapter(c.id);
+  app.innerHTML = `
+  <section class="section">
+    <button class="btn ghost small" data-back>← ${esc(t("backToLessons"))}</button>
+    <h1 style="margin-top:12px">${esc(c.title)}</h1>
+    <p class="sub">${esc(t("chapterPrefix"))} ${c.num} · ${esc(t("pagePrefix"))}s ${esc(c.pages)}</p>
+
+    <div class="card lesson-body" style="margin-top:16px">
+      <h2>${esc(t("summary"))}</h2>
+      <p>${esc(c.summary)}</p>
+
+      <div class="idea"><strong>${esc(t("essential"))} :</strong> ${esc(c.ideas[0])}</div>
+
+      <h3>${esc(t("keyPoints"))}</h3>
+      <ul>${c.ideas.map(i=>`<li>${esc(i)}</li>`).join("")}</ul>
+
+      <h3>${esc(t("definitions"))}</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Terme</th><th>Définition</th></tr></thead>
+        <tbody>${c.definitions.map(d=>`<tr><td><strong>${esc(d[0])}</strong></td><td>${esc(d[1])}</td></tr>`).join("")}</tbody>
+      </table></div>
+
+      <h3>${esc(t("keywords"))}</h3>
+      <div class="row">${c.keywords.map(k=>`<span class="badge gray">${esc(k)}</span>`).join("")}</div>
+
+      <h3 style="margin-top:16px">${esc(t("steps"))}</h3>
+      <ol class="list-num">${c.steps.map(s=>`<li>${esc(s)}</li>`).join("")}</ol>
+
+      <h3>${esc(t("mistakes"))}</h3>
+      <ul>${c.mistakes.map(m=>`<li>${esc(m)}</li>`).join("")}</ul>
+
+      <h3>${esc(t("example"))}</h3>
+      <div class="example">${esc(c.example)}</div>
+
+      <h3>${esc(t("quickQuiz"))}</h3>
+      <div class="grid" style="gap:8px">
+        ${chQs.slice(0,3).map(q=>`
+          <div class="card" style="padding:12px 14px">
+            <p style="font-size:.9rem;font-weight:600">${esc(q.q)}</p>
+            <p class="sub" style="font-size:.8rem;margin-top:4px">${esc(t("sourcePage"))} ${q.page} · ${esc(t(q.diff))}</p>
+          </div>
+        `).join("")}
+      </div>
+
+      <div class="row" style="margin-top:18px">
+        <button class="btn" data-start-chquiz="${c.id}">${esc(t("quizChapter"))} (${chQs.length})</button>
+        <button class="btn secondary" data-back>← ${esc(t("backToLessons"))}</button>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h2>${esc(t("lastMinute"))}</h2>
+      <ul>${c.ideas.slice(0,4).map(i=>`<li>${esc(i)}</li>`).join("")}</ul>
+      <p class="sub" style="font-size:.8rem;margin-top:8px">${esc(t("progSaved"))} · ${esc(t("loginNotNeeded"))}</p>
+    </div>
+  </section>`;
+  $$("[data-back]", app).forEach(b=>b.addEventListener("click",()=>location.hash="#lessons"));
+  $$("[data-start-chquiz]", app).forEach(b=>b.addEventListener("click",()=>startQuiz(chById(b.dataset.startChquiz).id, null)));
+}
+
+/* =========================================================================
+   VUE QUIZ HUB
+   ========================================================================= */
+function renderQuizHub(app, chapterId){
+  // Si un chapitre est passé en paramètre -> démarrage direct du quiz chapitre
+  if(chapterId && chById(chapterId)){
+    startQuiz(chapterId, null);
+    return;
+  }
+  app.innerHTML = `
+  <section class="section">
+    <h1>${esc(t("quizTitle"))}</h1>
+    <p class="sub">${QUESTIONS.length} ${esc(t("questionsCount"))} · ${esc(t("quizByChapter"))}, ${esc(t("quizByPage"))}, ${esc(t("quizAll"))}.</p>
+
+    <div class="card" style="margin-top:16px">
+      <h2>${esc(t("quizByChapter"))}</h2>
+      <div class="grid grid-2" style="margin-top:12px">
+        ${CHAPTERS.map(c=>{
+          const n = qsForChapter(c.id).length;
+          return `<div class="card hoverable" style="cursor:pointer" data-chquiz="${c.id}">
+            <span class="badge">${esc(t("chapterPrefix"))} ${c.num}</span>
+            <h3 style="margin-top:8px">${esc(c.title)}</h3>
+            <p class="sub" style="font-size:.82rem">${n} ${esc(t("questionsCount"))}</p>
+          </div>`;
+        }).join("")}
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h2>${esc(t("quizByPage"))}</h2>
+      <div class="filters">
+        <select id="pageFilter">
+          <option value="">${esc(t("allPages"))}</option>
+          ${[...new Set(QUESTIONS.map(q=>q.page))].sort((a,b)=>a-b).map(p=>`<option value="${p}">${esc(t("pagePrefix"))} ${p}</option>`).join("")}
+        </select>
+        <button class="btn small" id="startPageQuiz">${esc(t("start"))}</button>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <div class="spread">
+        <div>
+          <h2>${esc(t("quizAll"))}</h2>
+          <p class="sub">${QUESTIONS.length} ${esc(t("questionsCount"))} · ${esc(t("all"))} ${esc(t("difficulty"))}</p>
+        </div>
+        <button class="btn" id="startAllQuiz">${esc(t("start"))}</button>
+      </div>
+      <div class="filters" style="margin-top:12px">
+        <select id="difficultyFilter">
+          <option value="">${esc(t("all"))}</option>
+          <option value="facile">${esc(t("easy"))}</option>
+          <option value="moyen">${esc(t("medium"))}</option>
+          <option value="difficile">${esc(t("hard"))}</option>
+        </select>
+      </div>
+    </div>
+  </section>`;
+  $$("[data-chquiz]", app).forEach(b=>b.addEventListener("click",()=>startQuiz(b.dataset.chquiz, null)));
+  $("#startAllQuiz").addEventListener("click", ()=>{
+    const diff = $("#difficultyFilter").value;
+    const ids = QUESTIONS.filter(q=>!diff || q.diff===diff).map(q=>q.id);
+    if(ids.length===0) return toast(t("noQuestions"),"err");
+    startQuiz(null, ids, t("quizAll"));
+  });
+  $("#startPageQuiz").addEventListener("click", ()=>{
+    const p = Number($("#pageFilter").value);
+    if(!p) return toast(t("noQuestions"),"err");
+    const ids = qsForPage(p).map(q=>q.id);
+    if(ids.length===0) return toast(t("noQuestions"),"err");
+    startQuiz(null, ids, t("pagePrefix")+" "+p);
+  });
+}
+
+/* =========================================================================
+   MOTEUR DE QUIZ
+   ========================================================================= */
+let QUIZ = null;
+
+function startQuiz(chapterId, ids, label){
+  let questions;
+  if(chapterId) questions = qsForChapter(chapterId);
+  else if(ids) questions = ids.map(qById).filter(Boolean);
+  else questions = QUESTIONS.slice();
+
+  if(questions.length===0){ toast(t("noQuestions"),"err"); return; }
+
+  const sourceLabel = label || (chapterId ? (t("chapterPrefix")+" "+chById(chapterId).num) : t("quizAll"));
+
+  QUIZ = {
+    questions: shuffle(questions),
+    idx: 0,
+    answers: {},          // qid -> chosen index
+    validated: {},        // qid -> true
+    label: sourceLabel,
+    chapterId: chapterId || null,
+    timer: null,
+    timeLeft: 0,
+    finished: false
+  };
+  renderQuizView();
+}
+
+function renderQuizView(){
+  const app = $("#app");
+  if(!QUIZ){ renderQuizHub(app); return; }
+  if(QUIZ.finished){ renderQuizResult(app); return; }
+
+  const q = QUIZ.questions[QUIZ.idx];
+  const chosen = QUIZ.answers[q.id];
+  const validated = QUIZ.validated[q.id];
+  const total = QUIZ.questions.length;
+
+  app.innerHTML = `
+  <section class="section">
+    <div class="quiz-header">
+      <div>
+        <button class="btn ghost small" data-quit>← ${esc(t("backToQuiz"))}</button>
+        <h2 style="margin-top:6px">${esc(QUIZ.label)}</h2>
+      </div>
+      <div class="quiz-meta">${esc(t("question"))} ${QUIZ.idx+1} ${esc(t("of"))} ${total}</div>
+    </div>
+
+    <div class="progress" style="margin-bottom:16px"><span style="width:${((QUIZ.idx)/total*100).toFixed(1)}%"></span></div>
+
+    <div class="card q-card">
+      <div class="row" style="justify-content:space-between">
+        <span class="q-src">${esc(t("sourcePage"))} ${q.page} · ${esc(t("chapterPrefix"))} ${chById(q.ch).num}</span>
+        <span class="badge ${q.diff==='facile'?'green':q.diff==='difficile'?'red':'orange'}">${esc(t(q.diff))}</span>
+      </div>
+      <p class="q-text">${esc(q.q)}</p>
+      <div class="q-options" id="opts">
+        ${q.opts.map((opt,i)=>{
+          let cls = "opt";
+          if(validated){
+            cls += " disabled";
+            if(i===q.ans) cls += " correct";
+            else if(i===chosen) cls += " wrong";
+          } else if(chosen===i){ cls += " selected"; }
+          return `<button class="${cls}" data-opt="${i}" ${validated?'disabled':''}>
+            <span class="letter">${"ABCD"[i]}</span>
+            <span>${esc(opt)}</span>
+            ${validated && i===q.ans ? '<span class="mark" style="color:var(--success)">✓</span>' : ''}
+            ${validated && i===chosen && i!==q.ans ? '<span class="mark" style="color:var(--danger)">✗</span>' : ''}
+          </button>`;
+        }).join("")}
+      </div>
+
+      ${validated ? `
+        <div class="explanation">
+          <strong>${chosen===q.ans ? esc(t("correct")) : esc(t("wrong"))}</strong><br>
+          ${chosen!==q.ans ? `<em>${esc(t("correctAnswerIs"))} : ${"ABCD"[q.ans]}.</em><br>` : ''}
+          ${esc(q.exp)}
+        </div>
+      ` : ''}
+
+      <div class="quiz-nav">
+        <div class="row">
+          <button class="btn secondary" data-prev ${QUIZ.idx===0?'disabled':''}>← ${esc(t("prev"))}</button>
+          ${!validated && chosen!==undefined ? `<button class="btn" data-validate>${esc(t("validate"))}</button>` : ''}
+        </div>
+        <div class="row">
+          ${validated ? `<button class="btn" data-next>${QUIZ.idx===total-1 ? esc(t("finish")) : esc(t("next"))} →</button>` : ''}
+          <button class="btn ghost small" data-fav title="${esc(t("favorite"))}">${state.favorites.includes(q.id)?'★':'☆'}</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="stepper" style="margin-top:14px">
+      ${QUIZ.questions.map((qq,i)=>{
+        const st = QUIZ.validated[qq.id] ? (QUIZ.answers[qq.id]===qq.ans ? "done" : "bad") : (i===QUIZ.idx ? "cur" : "");
+        return `<span class="step-dot ${st}" title="${esc(t("question"))} ${i+1}"></span>`;
+      }).join("")}
+    </div>
+  </section>`;
+
+  $$("[data-quit]", app).forEach(b=>b.addEventListener("click",()=>{ QUIZ=null; location.hash="#quiz"; renderQuizHub($("#app")); }));
+  $$("[data-opt]", app).forEach(b=>b.addEventListener("click",()=>{
+    if(QUIZ.validated[q.id]) return;
+    QUIZ.answers[q.id] = Number(b.dataset.opt);
+    renderQuizView();
+  }));
+  $$("[data-validate]", app).forEach(b=>b.addEventListener("click",()=>{
+    if(QUIZ.answers[q.id]===undefined) return toast("Choisissez une réponse.","err");
+    QUIZ.validated[q.id] = true;
+    recordAnswer(q, QUIZ.answers[q.id]);
+    renderQuizView();
+  }));
+  $$("[data-prev]", app).forEach(b=>b.addEventListener("click",()=>{
+    if(QUIZ.idx>0){ QUIZ.idx--; renderQuizView(); }
+  }));
+  $$("[data-next]", app).forEach(b=>b.addEventListener("click",()=>{
+    if(QUIZ.idx<QUIZ.questions.length-1){ QUIZ.idx++; renderQuizView(); }
+    else { finishQuiz(); }
+  }));
+  $$("[data-fav]", app).forEach(b=>b.addEventListener("click",()=>{
+    const id = q.id;
+    const i = state.favorites.indexOf(id);
+    if(i>=0){ state.favorites.splice(i,1); toast(t("removeFavorite")); }
+    else { state.favorites.push(id); toast(t("addFavorite")); }
+    saveState();
+    renderQuizView();
+  }));
+}
+
+function recordAnswer(q, chosen){
+  const correct = chosen === q.ans;
+  state.history.push({qid:q.id, correct, chosen, date:new Date().toISOString()});
+  if(!correct){
+    if(!state.errors.includes(q.id)) state.errors.push(q.id);
+    state.streak = 0;
+  } else {
+    state.errors = state.errors.filter(id=>id!==q.id);
+    const last = state.lastAnswerDate;
+    const today = todayStr();
+    if(last === today) state.streak += 1;
+    else state.streak = 1;
+    state.lastAnswerDate = today;
+  }
+  // SRS simple
+  const srs = state.srs[q.id] || {level:0, nextReview: todayStr()};
+  if(correct){
+    srs.level = Math.min(srs.level+1, 5);
+    const days = [0,1,2,4,7,14][srs.level] || 14;
+    const d = new Date(); d.setDate(d.getDate()+days);
+    srs.nextReview = d.toISOString().slice(0,10);
+  } else {
+    srs.level = 0;
+    srs.nextReview = todayStr();
+  }
+  state.srs[q.id] = srs;
+  // Limiter l'historique
+  if(state.history.length > 2000) state.history = state.history.slice(-1500);
+  saveState();
+}
+
+function finishQuiz(){
+  const total = QUIZ.questions.length;
+  const correct = QUIZ.questions.filter(q=>QUIZ.answers[q.id]===q.ans).length;
+  state.lastResults.push({label:QUIZ.label, score:correct, total, date:new Date().toISOString()});
+  if(state.lastResults.length>50) state.lastResults = state.lastResults.slice(-40);
+  saveState();
+  QUIZ.finished = true;
+  renderQuizResult($("#app"));
+}
+
+function renderQuizResult(app){
+  const total = QUIZ.questions.length;
+  const correct = QUIZ.questions.filter(q=>QUIZ.answers[q.id]===q.ans).length;
+  const pct = total ? Math.round(correct/total*100) : 0;
+  const wrongQs = QUIZ.questions.filter(q=>QUIZ.answers[q.id]!==q.ans);
+
+  app.innerHTML = `
+  <section class="section">
+    <div class="card result-big">
+      <div class="score-ring" style="color:${pct>=70?'var(--success)':pct>=40?'var(--warning)':'var(--danger)'}">${pct}%</div>
+      <p class="sub" style="margin-top:6px">${esc(QUIZ.label)}</p>
+      <div class="progress ${pct>=70?'green':''}" style="max-width:340px;margin:14px auto"><span style="width:${pct}%"></span></div>
+      <p><strong>${correct}</strong> ${esc(t("correctAnswers"))} / ${total}</p>
+
+      <div class="row" style="justify-content:center;margin-top:18px">
+        <button class="btn" data-restart>${esc(t("restart"))}</button>
+        <button class="btn secondary" data-home>${esc(t("backToQuiz"))}</button>
+      </div>
+    </div>
+
+    ${wrongQs.length ? `
+    <div class="card" style="margin-top:16px">
+      <h2>${esc(t("errorsTitle"))} (${wrongQs.length})</h2>
+      <div class="grid" style="gap:10px;margin-top:10px">
+        ${wrongQs.map(q=>`
+          <div class="card" style="padding:12px 14px;border-left:3px solid var(--danger)">
+            <p style="font-size:.9rem;font-weight:600">${esc(q.q)}</p>
+            <p class="sub" style="font-size:.8rem;margin-top:4px">${esc(t("correctAnswerIs"))} : ${"ABCD"[q.ans]} — ${esc(q.opts[q.ans])}</p>
+            <p class="sub" style="font-size:.78rem;margin-top:4px">${esc(t("sourcePage"))} ${q.page}</p>
+          </div>
+        `).join("")}
+      </div>
+    </div>` : ''}
+  </section>`;
+  $$("[data-restart]", app).forEach(b=>b.addEventListener("click",()=>{
+    if(QUIZ.chapterId) startQuiz(QUIZ.chapterId, null);
+    else startQuiz(null, QUIZ.questions.map(q=>q.id), QUIZ.label);
+  }));
+  $$("[data-home]", app).forEach(b=>b.addEventListener("click",()=>{ QUIZ=null; location.hash="#quiz"; }));
+}
+
+/* =========================================================================
+   VUE EXAMENS
+   ========================================================================= */
+function renderExams(app){
+  app.innerHTML = `
+  <section class="section">
+    <h1>${esc(t("examsTitle"))}</h1>
+    <p class="sub">${esc(t("examNote"))}</p>
+    <div class="grid grid-2" style="margin-top:16px">
+      <div class="card hoverable">
+        <span class="badge green">${esc(t("easy"))}</span>
+        <h2 style="margin-top:8px">${esc(t("examEasy"))}</h2>
+        <p class="sub">10 questions · ${esc(t("allChaptersLabel"))}</p>
+        <button class="btn" style="margin-top:12px" data-exam="easy">${esc(t("start"))}</button>
+      </div>
+      <div class="card hoverable">
+        <span class="badge orange">${esc(t("medium"))}</span>
+        <h2 style="margin-top:8px">${esc(t("examMedium"))}</h2>
+        <p class="sub">15 questions · ${esc(t("allChaptersLabel"))}</p>
+        <button class="btn" style="margin-top:12px" data-exam="medium">${esc(t("start"))}</button>
+      </div>
+      <div class="card hoverable">
+        <span class="badge red">${esc(t("hard"))}</span>
+        <h2 style="margin-top:8px">${esc(t("examHard"))}</h2>
+        <p class="sub">10 questions difficiles · ${esc(t("allChaptersLabel"))}</p>
+        <button class="btn" style="margin-top:12px" data-exam="hard">${esc(t("start"))}</button>
+      </div>
+      <div class="card hoverable">
+        <span class="badge">${esc(t("examRandom"))}</span>
+        <h2 style="margin-top:8px">${esc(t("examRandom"))}</h2>
+        <p class="sub">20 questions aléatoires · ${esc(t("allChaptersLabel"))}</p>
+        <button class="btn" style="margin-top:12px" data-exam="random">${esc(t("start"))}</button>
+      </div>
+    </div>
+  </section>`;
+  $$("[data-exam]", app).forEach(b=>b.addEventListener("click",()=>{
+    const type = b.dataset.exam;
+    let pool;
+    if(type==="easy") pool = QUESTIONS.filter(q=>q.diff==="facile");
+    else if(type==="medium") pool = QUESTIONS.filter(q=>q.diff==="moyen" || q.diff==="facile");
+    else if(type==="hard") pool = QUESTIONS.filter(q=>q.diff==="difficile" || q.diff==="moyen");
+    else pool = QUESTIONS.slice();
+    const n = type==="easy"?10 : type==="medium"?15 : type==="hard"?10 : 20;
+    const picked = shuffle(pool).slice(0,n);
+    if(picked.length===0) return toast(t("noQuestions"),"err");
+    startQuiz(null, picked.map(q=>q.id), t("examsTitle")+" — "+type);
+  }));
+}
+
+/* =========================================================================
+   VUE FLASHCARDS
+   ========================================================================= */
+function renderFlashcards(app){
+  app.innerHTML = `
+  <section class="section">
+    <h1>${esc(t("flashcardsTitle"))}</h1>
+    <p class="sub">${FLASHCARDS.length} ${esc(t("cardsCount"))} · ${esc(t("flip"))}</p>
+    <div id="fcWrap" style="margin-top:16px"></div>
+    <div class="row" style="justify-content:center;margin-top:16px">
+      <button class="btn secondary" id="fcPrev">← ${esc(t("prevCard"))}</button>
+      <button class="btn" id="fcFlip">${esc(t("flip"))}</button>
+      <button class="btn secondary" id="fcNext">${esc(t("nextCard"))} →</button>
+    </div>
+  </section>`;
+  let i = 0;
+  function renderCard(){
+    const c = FLASHCARDS[i];
+    $("#fcWrap").innerHTML = `
+      <div class="fc-stage">
+        <div class="flashcard" id="flashcard">
+          <div class="fc-face fc-front">
+            <div class="fc-label">${esc(t("question"))} ${i+1}/${FLASHCARDS.length}</div>
+            <div class="fc-content">${esc(c.front)}</div>
+          </div>
+          <div class="fc-face fc-back">
+            <div class="fc-label">${esc(t("answer") || "Réponse")}</div>
+            <div class="fc-content">${esc(c.back)}</div>
+          </div>
+        </div>
+      </div>`;
+    $("#flashcard").addEventListener("click",()=>$("#flashcard").classList.toggle("flipped"));
+  }
+  renderCard();
+  $("#fcPrev").addEventListener("click",()=>{ i=(i-1+FLASHCARDS.length)%FLASHCARDS.length; renderCard(); });
+  $("#fcNext").addEventListener("click",()=>{ i=(i+1)%FLASHCARDS.length; renderCard(); });
+  $("#fcFlip").addEventListener("click",()=>$("#flashcard")?.classList.toggle("flipped"));
+}
+
+/* =========================================================================
+   VUE JEUX
+   ========================================================================= */
+function renderGames(app, gameId){
+  if(gameId==="match"){ renderMatchGame(app); return; }
+  if(gameId==="order"){ renderOrderGame(app); return; }
+  if(gameId==="timed"){ startTimedQuiz(); return; }
+  if(gameId==="final"){ startFinalChallenge(); return; }
+
+  app.innerHTML = `
+  <section class="section">
+    <h1>${esc(t("gamesTitle"))}</h1>
+    <p class="sub">${esc(t("matchGameDesc"))} · ${esc(t("orderGameDesc"))}</p>
+    <div class="grid grid-2" style="margin-top:16px">
+      <div class="card hoverable">
+        <div style="font-size:1.6rem">🔗</div>
+        <h2>${esc(t("matchGame"))}</h2>
+        <p class="sub">${esc(t("matchGameDesc"))}</p>
+        <button class="btn" style="margin-top:12px" data-game="match">${esc(t("play"))}</button>
+      </div>
+      <div class="card hoverable">
+        <div style="font-size:1.6rem">🔢</div>
+        <h2>${esc(t("orderGame"))}</h2>
+        <p class="sub">${esc(t("orderGameDesc"))}</p>
+        <button class="btn" style="margin-top:12px" data-game="order">${esc(t("play"))}</button>
+      </div>
+      <div class="card hoverable">
+        <div style="font-size:1.6rem">⏱️</div>
+        <h2>${esc(t("timedQuiz"))}</h2>
+        <p class="sub">${esc(t("timedQuizDesc"))}</p>
+        <button class="btn" style="margin-top:12px" data-game="timed">${esc(t("play"))}</button>
+      </div>
+      <div class="card hoverable">
+        <div style="font-size:1.6rem">🏆</div>
+        <h2>${esc(t("finalChallenge"))}</h2>
+        <p class="sub">${esc(t("finalChallengeDesc"))}</p>
+        <button class="btn" style="margin-top:12px" data-game="final">${esc(t("play"))}</button>
+      </div>
+    </div>
+  </section>`;
+  $$("[data-game]", app).forEach(b=>b.addEventListener("click",()=>location.hash="#games/"+b.dataset.game));
+}
+
+/* ---- Match game ---- */
+function renderMatchGame(app){
+  const terms = shuffle(MATCH_PAIRS);
+  const defs = shuffle(MATCH_PAIRS);
+  let selectedTerm = null;
+  let selectedDef = null;
+  let matched = 0;
+
+  app.innerHTML = `
+  <section class="section">
+    <button class="btn ghost small" data-back>← ${esc(t("backToGames"))}</button>
+    <h1 style="margin-top:12px">${esc(t("matchGame"))}</h1>
+    <p class="sub">${esc(t("selectTerm"))}</p>
+    <div class="match-cols" style="margin-top:16px">
+      <div class="match-col"><h4>Termes</h4><div id="termsCol"></div></div>
+      <div class="match-col"><h4>Définitions</h4><div id="defsCol"></div></div>
+    </div>
+    <div class="row" style="margin-top:16px"><span class="badge green" id="matchScore">0 / ${MATCH_PAIRS.length}</span></div>
+  </section>`;
+
+  function renderCols(){
+    $("#termsCol").innerHTML = terms.map((p,i)=>`<div class="match-item" data-term="${i}">${esc(p.term)}</div>`).join("");
+    $("#defsCol").innerHTML = defs.map((p,i)=>`<div class="match-item" data-def="${i}">${esc(p.def)}</div>`).join("");
+  }
+  renderCols();
+
+  function handleTerm(i){
+    if($(`[data-term="${i}"]`).classList.contains("matched")) return;
+    selectedTerm = i;
+    $$("[data-term]").forEach(e=>e.classList.remove("selected"));
+    $(`[data-term="${i}"]`).classList.add("selected");
+  }
+  function handleDef(i){
+    if($(`[data-def="${i}"]`).classList.contains("matched")) return;
+    if(selectedTerm===null){ toast(t("selectTerm"),"err"); return; }
+    selectedDef = i;
+    if(terms[selectedTerm].term === defs[selectedDef].term){
+      // Bonne association
+      $(`[data-term="${selectedTerm}"]`).classList.add("matched");
+      $(`[data-def="${selectedDef}"]`).classList.add("matched");
+      matched++;
+      $("#matchScore").textContent = `${matched} / ${MATCH_PAIRS.length}`;
+      selectedTerm = null; selectedDef = null;
+      if(matched===MATCH_PAIRS.length) toast("Bravo ! 🎉");
+    } else {
+      const a = $(`[data-term="${selectedTerm}"]`);
+      const b = $(`[data-def="${selectedDef}"]`);
+      a.classList.add("shake"); b.classList.add("shake");
+      setTimeout(()=>{ a.classList.remove("shake","selected"); b.classList.remove("shake"); }, 350);
+      selectedTerm = null;
+    }
+  }
+  function bind(){
+    $$("[data-term]").forEach(e=>e.addEventListener("click",()=>handleTerm(Number(e.dataset.term))));
+    $$("[data-def]").forEach(e=>e.addEventListener("click",()=>handleDef(Number(e.dataset.def))));
+  }
+  bind();
+  $("[data-back]").addEventListener("click",()=>location.hash="#games");
+}
+
+/* ---- Order game ---- */
+function renderOrderGame(app){
+  let items = shuffle(ORDER_GAME.items);
+  let checked = false;
+
+  app.innerHTML = `
+  <section class="section">
+    <button class="btn ghost small" data-back>← ${esc(t("backToGames"))}</button>
+    <h1 style="margin-top:12px">${esc(t("orderGame"))}</h1>
+    <p class="sub">${esc(t("orderInstruction"))}</p>
+    <div class="card" style="margin-top:16px" id="orderList"></div>
+    <div class="row" style="margin-top:16px">
+      <button class="btn" id="verifyOrder">${esc(t("verifyOrder"))}</button>
+      <span id="orderMsg" class="sub" style="font-weight:700"></span>
+    </div>
+  </section>`;
+
+  function renderList(){
+    $("#orderList").innerHTML = items.map((item,i)=>{
+      let cls = "order-item";
+      if(checked){
+        cls += (item === ORDER_GAME.items[i]) ? " ok" : " bad";
+      }
+      return `<div class="${cls}">
+        <span class="idx">${i+1}</span>
+        <span>${esc(item)}</span>
+        <span class="moves">
+          <button data-up="${i}" ${i===0?'disabled':''}>↑</button>
+          <button data-down="${i}" ${i===items.length-1?'disabled':''}>↓</button>
+        </span>
+      </div>`;
+    }).join("");
+    $$("[data-up]").forEach(b=>b.addEventListener("click",()=>{
+      const i=Number(b.dataset.up); if(i>0){ [items[i-1],items[i]]=[items[i],items[i-1]]; checked=false; renderList(); }
+    }));
+    $$("[data-down]").forEach(b=>b.addEventListener("click",()=>{
+      const i=Number(b.dataset.down); if(i<items.length-1){ [items[i+1],items[i]]=[items[i],items[i+1]]; checked=false; renderList(); }
+    }));
+  }
+  renderList();
+
+  $("#verifyOrder").addEventListener("click",()=>{
+    checked = true;
+    const ok = items.every((it,i)=>it===ORDER_GAME.items[i]);
+    $("#orderMsg").textContent = ok ? t("orderOk") : t("orderBad");
+    $("#orderMsg").style.color = ok ? "var(--success)" : "var(--danger)";
+    renderList();
+  });
+  $("[data-back]").addEventListener("click",()=>location.hash="#games");
+}
+
+/* ---- Timed quiz ---- */
+function startTimedQuiz(){
+  const pool = shuffle(QUESTIONS).slice(0,10);
+  let idx = 0, score = 0, timeLeft = 90, timerId = null;
+  const app = $("#app");
+
+  function render(){
+    if(idx >= pool.length){ end(); return; }
+    const q = pool[idx];
+    app.innerHTML = `
+    <section class="section">
+      <div class="spread">
+        <h1>⏱️ ${esc(t("timedQuiz"))}</h1>
+        <span class="badge red">${timeLeft}s</span>
+      </div>
+      <div class="progress" style="margin:12px 0"><span style="width:${(idx/pool.length*100)}%"></span></div>
+      <div class="card q-card">
+        <p class="q-src">${esc(t("question"))} ${idx+1}/${pool.length} · ${esc(t("sourcePage"))} ${q.page}</p>
+        <p class="q-text">${esc(q.q)}</p>
+        <div class="q-options">${q.opts.map((o,i)=>`<button class="opt" data-opt="${i}"><span class="letter">${"ABCD"[i]}</span><span>${esc(o)}</span></button>`).join("")}</div>
+      </div>
+    </section>`;
+    $$("[data-opt]").forEach(b=>b.addEventListener("click",()=>{
+      const chosen = Number(b.dataset.opt);
+      if(chosen===q.ans) score++;
+      idx++;
+      render();
+    }));
+  }
+  function end(){
+    clearInterval(timerId);
+    app.innerHTML = `
+    <section class="section">
+      <div class="card result-big">
+        <h1>${esc(t("challengeDone"))}</h1>
+        <div class="score-ring" style="color:var(--success);margin-top:10px">${score}/${pool.length}</div>
+        <div class="row" style="justify-content:center;margin-top:18px">
+          <button class="btn" onclick="location.hash='#games/timed'">${esc(t("restart"))}</button>
+          <button class="btn secondary" onclick="location.hash='#games'">${esc(t("backToGames"))}</button>
+        </div>
+      </div>
+    </section>`;
+  }
+  render();
+  timerId = setInterval(()=>{
+    timeLeft--;
+    if(timeLeft<=0){ clearInterval(timerId); end(); return; }
+    const badge = $(".badge.red");
+    if(badge) badge.textContent = timeLeft+"s";
+  },1000);
+}
+
+/* ---- Final challenge ---- */
+function startFinalChallenge(){
+  const pool = shuffle(QUESTIONS.filter(q=>q.diff==="difficile")).slice(0,20);
+  if(pool.length===0){ toast(t("noQuestions"),"err"); return; }
+  startQuiz(null, pool.map(q=>q.id), t("finalChallenge"));
+}
+
+/* =========================================================================
+   VUE GLOSSAIRE
+   ========================================================================= */
+function renderGlossary(app){
+  app.innerHTML = `
+  <section class="section">
+    <h1>${esc(t("glossaryTitle"))}</h1>
+    <p class="sub">${GLOSSARY.length} ${esc(t("termsCount"))} · ${esc(t("searchPlaceholder"))}</p>
+    <div class="search-box" style="margin:14px 0">
+      <span class="ico">🔍</span>
+      <input type="text" id="glossSearch" placeholder="${esc(t("searchPlaceholder"))}">
+    </div>
+    <div class="alpha-bar" id="alphaBar"></div>
+    <div class="card" id="glossList"></div>
+  </section>`;
+
+  const letters = [...new Set(GLOSSARY.map(g=>g.term[0].toUpperCase()))].sort();
+  $("#alphaBar").innerHTML = `<button data-letter="">${esc(t("all"))}</button>` + letters.map(l=>`<button data-letter="${l}">${l}</button>`).join("");
+  let activeLetter = "";
+  let query = "";
+
+  function renderList(){
+    let list = GLOSSARY.slice();
+    if(activeLetter) list = list.filter(g=>g.term[0].toUpperCase()===activeLetter);
+    if(query) list = list.filter(g=>(g.term+" "+g.def).toLowerCase().includes(query.toLowerCase()));
+    if(list.length===0){ $("#glossList").innerHTML = `<div class="empty">${esc(t("noResults"))}</div>`; return; }
+    $("#glossList").innerHTML = list.map(g=>`
+      <div class="gloss-item">
+        <div class="gloss-term">${esc(g.term)}</div>
+        <div class="gloss-def">${esc(g.def)}</div>
+        <div class="gloss-ar">${esc(g.ar)}</div>
+        <div class="row" style="margin-top:6px">
+          <span class="badge gray">${esc(t("pagePrefix"))} ${g.page}</span>
+          ${g.rel.map(r=>`<span class="badge">${esc(r)}</span>`).join("")}
+        </div>
+      </div>
+    `).join("");
+  }
+  renderList();
+
+  $$("#alphaBar button").forEach(b=>b.addEventListener("click",()=>{
+    activeLetter = b.dataset.letter;
+    $$("#alphaBar button").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    renderList();
+  }));
+  $("#glossSearch").addEventListener("input", e=>{ query = e.target.value; renderList(); });
+}
+
+/* =========================================================================
+   VUE ERREURS
+   ========================================================================= */
+function renderErrors(app){
+  const errs = state.errors.map(qById).filter(Boolean);
+  app.innerHTML = `
+  <section class="section">
+    <div class="spread">
+      <h1>${esc(t("errorsTitle"))}</h1>
+      <div class="row">
+        <button class="btn small" id="reviewErrors">${esc(t("reviewErrors"))}</button>
+        <button class="btn small ghost" id="clearErrors">${esc(t("clearErrors"))}</button>
+      </div>
+    </div>
+    ${errs.length===0 ? `<div class="card" style="margin-top:16px"><div class="empty">${esc(t("noErrors"))}</div></div>` :
+    `<div class="grid" style="margin-top:16px;gap:10px">
+      ${errs.map(q=>`
+        <div class="card" style="border-left:3px solid var(--danger)">
+          <div class="spread">
+            <span class="badge">${esc(t("chapterPrefix"))} ${chById(q.ch).num}</span>
+            <span class="badge gray">${esc(t("pagePrefix"))} ${q.page}</span>
+          </div>
+          <p style="font-weight:600;margin-top:8px">${esc(q.q)}</p>
+          <p class="sub" style="font-size:.84rem;margin-top:6px"><strong>${esc(t("correctAnswerIs"))} :</strong> ${"ABCD"[q.ans]} — ${esc(q.opts[q.ans])}</p>
+          <p class="sub" style="font-size:.82rem;margin-top:4px">${esc(q.exp)}</p>
+        </div>
+      `).join("")}
+    </div>`}
+  </section>`;
+  $("#reviewErrors")?.addEventListener("click",()=>{
+    if(errs.length===0) return toast(t("noErrors"),"err");
+    startQuiz(null, errs.map(q=>q.id), t("errorsTitle"));
+  });
+  $("#clearErrors")?.addEventListener("click",()=>{
+    if(!confirm(t("confirmClear"))) return;
+    state.errors = [];
+    saveState();
+    renderErrors(app);
+    toast(t("cleared"));
+  });
+}
+
+/* =========================================================================
+   VUE STATS
+   ========================================================================= */
+function renderStats(app){
+  const totalAnswered = state.history.length;
+  const totalCorrect = state.history.filter(h=>h.correct).length;
+  const accuracy = totalAnswered ? Math.round(totalCorrect/totalAnswered*100) : 0;
+  const last = state.lastResults.slice(-5).reverse();
+
+  app.innerHTML = `
+  <section class="section">
+    <h1>${esc(t("statsTitle"))}</h1>
+    <p class="sub">${esc(t("loginNotNeeded"))}</p>
+
+    <div class="grid grid-4" style="margin-top:16px">
+      <div class="card stat-card"><div class="num">${totalAnswered}</div><div class="lbl">${esc(t("answered"))}</div></div>
+      <div class="card stat-card"><div class="num">${totalCorrect}</div><div class="lbl">${esc(t("correctAnswers"))}</div></div>
+      <div class="card stat-card"><div class="num">${accuracy}%</div><div class="lbl">${esc(t("accuracy"))}</div></div>
+      <div class="card stat-card"><div class="num">${state.streak}</div><div class="lbl">${esc(t("streak"))}</div></div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <div class="spread">
+        <h2>${esc(t("lastResults"))}</h2>
+        <div class="row">
+          <button class="btn small secondary" id="exportCsv">${esc(t("exportResults"))}</button>
+          <button class="btn small ghost" id="exportJson">${esc(t("exportJson"))}</button>
+        </div>
+      </div>
+      ${last.length===0 ? `<div class="empty">${esc(t("statsEmpty"))}</div>` :
+      `<div class="tbl-wrap" style="margin-top:10px"><table>
+        <thead><tr><th>Date</th><th>Quiz</th><th>Score</th></tr></thead>
+        <tbody>${last.map(r=>`<tr><td>${esc(new Date(r.date).toLocaleDateString())}</td><td>${esc(r.label)}</td><td>${r.score}/${r.total}</td></tr>`).join("")}</tbody>
+      </table></div>`}
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h2>${esc(t("favorites"))}</h2>
+      ${state.favorites.length===0 ? `<div class="empty">${esc(t("noFavorites"))}</div>` :
+      `<div class="grid" style="gap:8px;margin-top:10px">
+        ${state.favorites.map(id=>qById(id)).filter(Boolean).map(q=>`
+          <div class="card" style="padding:12px 14px">
+            <p style="font-size:.9rem;font-weight:600">${esc(q.q)}</p>
+            <p class="sub" style="font-size:.8rem;margin-top:4px">${esc(t("pagePrefix"))} ${q.page} · ${esc(t("chapterPrefix"))} ${chById(q.ch).num}</p>
+          </div>
+        `).join("")}
+      </div>`}
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <button class="btn danger small" id="clearAll">${esc(t("clearAll"))}</button>
+    </div>
+  </section>`;
+
+  $("#exportCsv")?.addEventListener("click",()=>{
+    const rows = [["date","qid","correct","chosen"]].concat(state.history.map(h=>[h.date,h.qid,h.correct,h.chosen]));
+    const csv = rows.map(r=>r.join(",")).join("\n");
+    downloadFile("resultats_mrl.csv", csv, "text/csv");
+  });
+  $("#exportJson")?.addEventListener("click",()=>{
+    downloadFile("resultats_mrl.json", JSON.stringify(state, null, 2), "application/json");
+  });
+  $("#clearAll")?.addEventListener("click",()=>{
+    if(!confirm(t("clearAllConfirm"))) return;
+    state = defaultState();
+    saveState();
+    applyTheme(); applyLang();
+    toast(t("cleared"));
+  });
+}
+function downloadFile(name, content, mime){
+  const blob = new Blob([content], {type:mime});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+/* =========================================================================
+   VUE RÉVISION EXPRESS
+   ========================================================================= */
+function renderExpress(app){
+  app.innerHTML = `
+  <section class="section">
+    <h1>⚡ ${esc(t("expressTitle"))}</h1>
+    <p class="sub">${esc(t("exprNote"))}</p>
+
+    <div class="grid" style="margin-top:16px;gap:12px">
+      ${CHAPTERS.map(c=>`
+        <div class="card">
+          <div class="spread">
+            <span class="badge">${esc(t("chapterPrefix"))} ${c.num}</span>
+            <span class="badge gray">${esc(t("pagePrefix"))}s ${c.pages}</span>
+          </div>
+          <h3 style="margin-top:8px">${esc(c.title)}</h3>
+          <div class="idea"><strong>${esc(t("essential"))} :</strong> ${esc(c.ideas[0])}</div>
+          <ul style="margin-top:6px">${c.ideas.slice(1,3).map(i=>`<li style="font-size:.88rem">${esc(i)}</li>`).join("")}</ul>
+        </div>
+      `).join("")}
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h2>${esc(t("exprLastMin"))}</h2>
+      <ul>
+        <li>Littérature scientifique = publications validées ; commencer par comprendre le contexte.</li>
+        <li>Scopus (Elsevier) et Web of Science (Clarivate) sont complémentaires.</li>
+        <li>JIF : 2 ans, Clarivate/JCR ; CiteScore : 4 ans, Scopus.</li>
+        <li>Q1 = top 25% de la catégorie ; toujours relatif à une catégorie.</li>
+        <li>Structure article : Titre, Résumé, Introduction, Méthodes, Résultats, Discussion, Conclusion, Références.</li>
+        <li>Quantitatif = mesurer ; qualitatif = comprendre/interpréter.</li>
+        <li>DOI = identifiant unique et persistant ; Zotero/BibTeX pour gérer les références.</li>
+        <li>Peer review : simple aveugle, double aveugle ou ouverte.</li>
+        <li>Mémoire PFE = reconstruction scientifique, pas un journal chronologique.</li>
+        <li>Intégrité = originalité + attribution correcte + traçabilité.</li>
+      </ul>
+      <p class="sub" style="font-size:.8rem;margin-top:10px">${esc(t("exprTip"))}</p>
+    </div>
+  </section>`;
+}
+
+/* =========================================================================
+   INITIALISATION
+   ========================================================================= */
+function init(){
+  applyTheme();
+  $("#themeBtn").addEventListener("click",()=>{
+    state.theme = state.theme === "dark" ? "light" : "dark";
+    saveState(); applyTheme();
+  });
+  $("#langSelect").addEventListener("change", e=>{
+    state.lang = e.target.value;
+    saveState(); applyLang();
+  });
+  $("#resetBtn").addEventListener("click",()=>{
+    if(!confirm(t("resetConfirm"))) return;
+    state = defaultState();
+    saveState();
+    applyTheme(); applyLang();
+    toast(t("cleared"));
+  });
+  applyLang();
+  window.addEventListener("hashchange",()=>route(location.hash));
+  route(location.hash || "#home");
+}
+document.addEventListener("DOMContentLoaded", init);
+</script>
+</body>
+</html>
